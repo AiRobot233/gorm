@@ -29,17 +29,17 @@ func SqlSave(context *gin.Context) {
 	if result.Error == nil {
 		utils.Success(context, user.Id)
 	} else {
-		utils.Success(context, result.Error)
+		utils.Error(context, result.Error)
 	}
 }
 
 func SqlGet(context *gin.Context) {
 	user := model.User{}
-	result := user.Db().Preload("Books", "id != (?)", "1").First(&user)
+	result := user.Db().Preload("Books", "id != (?)", 1).First(&user)
 	if result.Error == nil {
 		utils.Success(context, user)
 	} else {
-		utils.Success(context, result.Error)
+		utils.Error(context, result.Error)
 	}
 }
 
