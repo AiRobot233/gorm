@@ -35,7 +35,7 @@ func SqlSave(context *gin.Context) {
 
 func SqlGet(context *gin.Context) {
 	user := model.User{}
-	result := user.Db().Preload("Books", "id != (?)", 1).First(&user)
+	result := user.Db().Preload("Books", "id != ?", 1).First(&user)
 	if result.Error == nil {
 		utils.Success(context, user)
 	} else {

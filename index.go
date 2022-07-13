@@ -9,6 +9,7 @@ import (
 
 func main() {
 	router := gin.Default()
+	router.Static("/storage", "./storage") //文件访问配置地址
 	v1 := router.Group("/v1")
 	{
 		v1.POST("/someGet", func(context *gin.Context) {
