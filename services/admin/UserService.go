@@ -21,7 +21,7 @@ func UserList(page string, pageSize string) (bool, interface{}) {
 	if result.Error != nil {
 		return false, result.Error.Error()
 	} else {
-		return true, users
+		return true, utils.P(users, count)
 	}
 }
 
