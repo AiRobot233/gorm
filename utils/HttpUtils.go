@@ -37,3 +37,12 @@ func ValidateError(context *gin.Context, msg map[string]string) {
 		"timestamp": time.Now().Unix(),
 	})
 }
+
+//封装输出数据
+func Send(c *gin.Context, bol bool, data interface{}) {
+	if bol {
+		Success(c, data)
+	} else {
+		Error(c, data)
+	}
+}

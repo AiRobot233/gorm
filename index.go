@@ -2,6 +2,7 @@ package main
 
 import (
 	"gin/controller"
+	"gin/controller/admin"
 	"gin/middleware"
 	"gin/validate"
 	"github.com/gin-gonic/gin"
@@ -10,46 +11,42 @@ import (
 func main() {
 	router := gin.Default()
 	router.Static("/storage", "./storage") //文件访问配置地址
-	v1 := router.Group("/v1")
+	a := router.Group("/admin")
 	{
-		v1.POST("/someGet", func(context *gin.Context) {
-			bol := validate.LoginValidate(context)
+		a.POST("/login", func(c *gin.Context) {
+			bol := validate.LoginValidate(c)
 			if bol {
-				controller.Login(context)
+				admin.Login(c)
 			}
 		})
-		v1.POST("/redis", func(context *gin.Context) {
-			controller.Redis()
+
+		//鉴权
+		auth := a.Use(middleware.LoginAuth())
+		//用户列表
+		auth.GET("/user/list", func(c *gin.Context) {
+			admin.UserList(c)
 		})
-		v1.GET("/jwt", func(context *gin.Context) {
-			controller.Jwt(context)
+		//用户添加
+		auth.POST("user/add", func(c *gin.Context) {
+			bol := validate.UserValidate(c)
+			if bol {
+				admin.UserAdd(c)
+			}
 		})
-		//新增数据
-		v1.POST("/save", func(context *gin.Context) {
-			controller.SqlSave(context)
+		//用户修改
+		auth.PUT("user/edit/:id", func(c *gin.Context) {
+			bol := validate.UserValidate(c)
+			if bol {
+				admin.UserEdit(c)
+			}
 		})
-		//查询数据
-		v1.GET("/get", func(context *gin.Context) {
-			controller.SqlGet(context)
-		})
-		//删除数据
-		v1.DELETE("/del/:id", func(context *gin.Context) {
-			controller.SqlDel(context)
-		})
-		//测试
-		v1.GET("/index", func(context *gin.Context) {
-			controller.Index()
+		//用户删除
+		auth.DELETE("user/del/:id", func(c *gin.Context) {
+			admin.UserDel(c)
 		})
 		//上传文件
-		v1.POST("/upload", func(context *gin.Context) {
-			controller.Upload(context)
-		})
-	}
-
-	v2 := router.Group("/v2")
-	{
-		v2.Use(middleware.LoginAuth()).POST("/check_jwt", func(context *gin.Context) {
-			controller.A(context)
+		auth.POST("/upload", func(c *gin.Context) {
+			controller.Upload(c)
 		})
 	}
 	_ = router.Run(":8080")

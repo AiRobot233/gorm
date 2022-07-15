@@ -3,6 +3,7 @@ package utils
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"math/rand"
 	"strconv"
 	"time"
 )
@@ -37,4 +38,23 @@ func StrToTime(date int64) string {
 //int64转string
 func Int64ToStr(i int64) string {
 	return strconv.FormatInt(i, 10)
+}
+
+//获取盐
+func GetSalt(str string) string {
+	r := rand.Int()
+	s := strconv.Itoa(r)
+	timeUnixNano := time.Now().UnixNano()
+	timeS := strconv.FormatInt(timeUnixNano, 10)
+	m5 := Md5(str + timeS + s)
+	return m5[0:5]
+}
+
+//输出分页
+func P(data interface{}, count int64) map[string]interface{} {
+	var p map[string]interface{}     //定义map
+	p = make(map[string]interface{}) //初始化map
+	p["list"] = data
+	p["total"] = count
+	return p
 }

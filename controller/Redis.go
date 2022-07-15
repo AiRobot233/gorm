@@ -4,13 +4,8 @@ import (
 	"context"
 	"fmt"
 	"gin/config"
-	"github.com/gin-gonic/gin"
 	"time"
 )
-
-func Login(context *gin.Context) {
-
-}
 
 func Redis() {
 	rdb := config.BuildRedis()
