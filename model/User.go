@@ -16,6 +16,7 @@ type User struct {
 	CreatedAt utils.LocalTime `gorm:"column:created_at" json:"created_at"` //是否可空:NO
 	UpdatedAt utils.LocalTime `gorm:"column:updated_at" json:"updated_at"` //是否可空:NO
 	DeletedAt gorm.DeletedAt  `gorm:"column:deleted_at" json:"-"`          //是否可空:NO
+	Status    int             `gorm:"column:status" json:"status"`         //是否可空:NO
 }
 
 func (*User) TableName() string {

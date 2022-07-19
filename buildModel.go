@@ -9,8 +9,8 @@ func main() {
 	simple := tblschema.NewTblToStructHandler()
 	simple.
 		SetDsn("root:root@tcp(127.0.0.1:3306)/gorm?charset=utf8").
-		SetTableName("user").
+		SetTableName("rule").
 		//默认路径为当前目录
-		SetSavePath("model/User.go").GenerateTblStruct()
+		SetSavePath("model/Rule.go").GenerateTblStruct()
 	// SetPackageInfo("plf_test_package", "", "").s
 }

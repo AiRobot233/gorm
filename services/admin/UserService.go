@@ -17,12 +17,8 @@ type listUser struct {
 func UserList(page string, pageSize string) (bool, interface{}) {
 	var users []listUser //定义表结构
 	var count int64
-	result := db.Table("user").Select([]string{"id", "name", "created_at"}).Scopes(model.Paginate(page, pageSize)).Scan(&users).Count(&count)
-	if result.Error != nil {
-		return false, result.Error.Error()
-	} else {
-		return true, utils.P(users, count)
-	}
+	result := db.Table("user").Select([]string{"id", "name", "phone", "created_at"}).Scopes(model.Paginate(page, pageSize)).Scan(&users).Count(&count)
+	return utils.R(result, utils.P(users, count))
 }
 
 //新增
@@ -35,11 +31,7 @@ func UserAdd(password string, name string, phone string) (bool, interface{}) {
 		Password: utils.Md5(password + salt),
 	}
 	result := db.Create(&user)
-	if result.Error != nil {
-		return false, result.Error.Error()
-	} else {
-		return true, nil
-	}
+	return utils.R(result, nil)
 }
 
 //修改
@@ -52,20 +44,12 @@ func UserEdit(id string, params map[string]string) (bool, interface{}) {
 		user.Password = utils.Md5(params["password"] + user.Salt)
 	}
 	result := db.Save(&user)
-	if result.Error != nil {
-		return false, result.Error.Error()
-	} else {
-		return true, nil
-	}
+	return utils.R(result, nil)
 }
 
 //删除
 func UserDel(id string) (bool, interface{}) {
 	user := model.User{}
 	result := db.Delete(&user, id)
-	if result.Error != nil {
-		return false, result.Error.Error()
-	} else {
-		return true, nil
-	}
+	return utils.R(result, nil)
 }

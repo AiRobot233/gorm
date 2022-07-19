@@ -1,8 +1,12 @@
 package utils
 
 import (
+	"bytes"
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
+	"fmt"
+	"gorm.io/gorm"
 	"math/rand"
 	"strconv"
 	"time"
@@ -57,4 +61,31 @@ func P(data interface{}, count int64) map[string]interface{} {
 	p["list"] = data
 	p["total"] = count
 	return p
+}
+
+//输出错误或正常数据
+func R(err *gorm.DB, data interface{}) (bool, interface{}) {
+	if err.Error != nil {
+		return false, err.Error.Error()
+	} else {
+		return true, data
+	}
+}
+
+//json转map
+func JSONMethod(content interface{}) []map[string]interface{} {
+	var name []map[string]interface{}
+	if marshalContent, err := json.Marshal(content); err != nil {
+		fmt.Println(err)
+	} else {
+		d := json.NewDecoder(bytes.NewReader(marshalContent))
+		if err := d.Decode(&name); err != nil {
+			fmt.Println(err)
+		} else {
+			for k, v := range name {
+				name[k] = v
+			}
+		}
+	}
+	return name
 }

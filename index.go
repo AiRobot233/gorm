@@ -44,6 +44,24 @@ func main() {
 		auth.DELETE("user/del/:id", func(c *gin.Context) {
 			admin.UserDel(c)
 		})
+
+		//规则列表
+		auth.GET("/rule/list", func(c *gin.Context) {
+			admin.RuleList(c)
+		})
+		//规则添加
+		auth.POST("/rule/add", func(c *gin.Context) {
+			admin.RuleAdd(c)
+		})
+		//规则修改
+		auth.PUT("/rule/edit/:id", func(c *gin.Context) {
+			admin.RuleEdit(c)
+		})
+		//规则删除
+		auth.DELETE("/rule/del/:id", func(c *gin.Context) {
+			admin.RuleDel(c)
+		})
+
 		//上传文件
 		auth.POST("/upload", func(c *gin.Context) {
 			controller.Upload(c)
