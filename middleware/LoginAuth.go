@@ -9,13 +9,13 @@ func LoginAuth() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		token := context.GetHeader("token")
 		if token == "" {
-			utils.Error(context, "未登录")
+			utils.Error(context, "未登录", 401)
 			context.Abort()
 			return
 		} else {
 			err, data := utils.CheckJwt(token)
 			if err {
-				utils.Error(context, data)
+				utils.Error(context, data, 401)
 				context.Abort()
 				return
 			} else {

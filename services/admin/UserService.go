@@ -22,26 +22,30 @@ func UserList(page string, pageSize string) (bool, interface{}) {
 }
 
 //新增
-func UserAdd(password string, name string, phone string) (bool, interface{}) {
+func UserAdd(password string, name string, phone string, roleId int, status int) (bool, interface{}) {
 	salt := utils.GetSalt(password)
 	user := model.User{
 		Name:     name,
 		Phone:    phone,
 		Salt:     salt,
 		Password: utils.Md5(password + salt),
+		RoleId:   roleId,
+		Status:   status,
 	}
 	result := db.Create(&user)
 	return utils.R(result, nil)
 }
 
 //修改
-func UserEdit(id string, params map[string]string) (bool, interface{}) {
+func UserEdit(id string, params map[string]interface{}) (bool, interface{}) {
 	user := model.User{}
 	db.First(&user, id)
-	user.Name = params["name"]
-	user.Phone = params["phone"]
-	if params["password"] != "" {
-		user.Password = utils.Md5(params["password"] + user.Salt)
+	user.Name = params["name"].(string)
+	user.Phone = params["phone"].(string)
+	user.RoleId = int(params["role_id"].(float64))
+	user.Status = int(params["status"].(float64))
+	if params["password"] != nil && params["password"] != "" {
+		user.Password = utils.Md5(params["password"].(string) + user.Salt)
 	}
 	result := db.Save(&user)
 	return utils.R(result, nil)

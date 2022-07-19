@@ -1,6 +1,7 @@
 package model
 
 import (
+	"errors"
 	"gin/utils"
 	"gorm.io/gorm"
 )
@@ -18,4 +19,24 @@ type Role struct {
 
 func (*Role) TableName() string {
 	return "role"
+}
+
+//设置数据体
+func RoleSetFromData(role *Role, params map[string]interface{}) {
+	role.Pid = int(params["pid"].(float64))
+	role.Name = params["name"].(string)
+	role.Rule = params["rule"].(string)
+}
+
+//删除事件
+func (r *Role) BeforeDelete(tx *gorm.DB) (err error) {
+	if r.Id == 1 {
+		return errors.New("系统账号不允许删除")
+	}
+	role := Role{}
+	result := tx.Model(r).Where("pid = ?", r.Id).First(&role)
+	if result.RowsAffected > 0 {
+		return errors.New("有子级不允许删除")
+	}
+	return
 }

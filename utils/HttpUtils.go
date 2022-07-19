@@ -6,6 +6,7 @@ import (
 )
 
 var successMsg = "success" //成功默认值
+var errorCode = 400        //失败code码
 
 func Success(context *gin.Context, data interface{}, msg ...string) {
 	if len(msg) > 0 {
@@ -19,8 +20,11 @@ func Success(context *gin.Context, data interface{}, msg ...string) {
 	})
 }
 
-func Error(context *gin.Context, msg interface{}) {
-	context.JSON(400, gin.H{
+func Error(context *gin.Context, msg interface{}, code ...int) {
+	if len(code) > 0 {
+		errorCode = code[0]
+	}
+	context.JSON(errorCode, gin.H{
 		"error":     1,
 		"message":   msg,
 		"data":      nil,

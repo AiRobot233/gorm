@@ -1,5 +1,10 @@
 package model
 
+import (
+	"errors"
+	"gorm.io/gorm"
+)
+
 //
 type Rule struct {
 	Id     int     `gorm:"column:id" json:"id"`         //是否可空:NO
@@ -34,4 +39,14 @@ func RuleSetFromData(rule *Rule, params map[string]interface{}) {
 		method := params["method"].(string)
 		rule.Method = &method
 	}
+}
+
+//删除事件
+func (r *Rule) BeforeDelete(tx *gorm.DB) (err error) {
+	rule := Rule{}
+	result := tx.Model(r).Where("pid = ?", r.Id).First(&rule)
+	if result.RowsAffected > 0 {
+		return errors.New("有子级不允许删除")
+	}
+	return
 }

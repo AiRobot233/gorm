@@ -22,6 +22,11 @@ func main() {
 
 		//鉴权
 		auth := a.Use(middleware.LoginAuth())
+		//获取用户权限
+		auth.GET("/auth", func(c *gin.Context) {
+			admin.GetAuth(c)
+		})
+
 		//用户列表
 		auth.GET("/user/list", func(c *gin.Context) {
 			admin.UserList(c)
@@ -60,6 +65,23 @@ func main() {
 		//规则删除
 		auth.DELETE("/rule/del/:id", func(c *gin.Context) {
 			admin.RuleDel(c)
+		})
+
+		//角色列表
+		auth.GET("/role/list", func(c *gin.Context) {
+			admin.RoleList(c)
+		})
+		//角色新增
+		auth.POST("/role/add", func(c *gin.Context) {
+			admin.RoleAdd(c)
+		})
+		//角色修改
+		auth.PUT("/role/edit/:id", func(c *gin.Context) {
+			admin.RoleEdit(c)
+		})
+		//角色删除
+		auth.DELETE("/role/del/:id", func(c *gin.Context) {
+			admin.RoleDel(c)
 		})
 
 		//上传文件
