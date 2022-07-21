@@ -1,9 +1,9 @@
 package model
 
 import (
+	"gin/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"strconv"
 )
 
 func GetDb() *gorm.DB {
@@ -15,8 +15,8 @@ func GetDb() *gorm.DB {
 //分页
 func Paginate(page string, pageSize string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		page, _ := strconv.Atoi(page)
-		pageSize, _ := strconv.Atoi(pageSize)
+		page := utils.StrToInt(page)
+		pageSize := utils.StrToInt(pageSize)
 		offset := (page - 1) * pageSize
 		return db.Offset(offset).Limit(pageSize)
 	}

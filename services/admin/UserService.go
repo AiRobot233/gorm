@@ -22,14 +22,24 @@ func UserList(page string, pageSize string) (bool, interface{}) {
 }
 
 //新增
-func UserAdd(password string, name string, phone string, roleId int, status int) (bool, interface{}) {
-	salt := utils.GetSalt(password)
+func UserAdd(params map[string]interface{}) (bool, interface{}) {
+	//判断值是否存在
+	var status int
+	if _, ok := params["password"]; !ok {
+		params["password"] = "@112233"
+	}
+	if _, ok := params["status"]; !ok {
+		status = 1
+	} else {
+		status = int(params["status"].(float64))
+	}
+	salt := utils.GetSalt(params["password"].(string))
 	user := model.User{
-		Name:     name,
-		Phone:    phone,
+		Name:     params["name"].(string),
+		Phone:    params["phone"].(string),
 		Salt:     salt,
-		Password: utils.Md5(password + salt),
-		RoleId:   roleId,
+		Password: utils.Md5(params["password"].(string) + salt),
+		RoleId:   int(params["role_id"].(float64)),
 		Status:   status,
 	}
 	result := db.Create(&user)

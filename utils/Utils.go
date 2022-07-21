@@ -12,6 +12,12 @@ import (
 	"time"
 )
 
+//string 转 int
+func StrToInt(str string) int {
+	i, _ := strconv.Atoi(str)
+	return i
+}
+
 //获取当前时间
 func NowTime() string {
 	t := time.Now()

@@ -10,13 +10,14 @@ import (
 )
 
 //数据体最好公开可以外部直接调用
-type User struct {
+type Rule struct {
+	Pid    int    `form:"pid" json:"pid" binding:"required"`
 	Name   string `form:"name" json:"name" binding:"required"`
-	Phone  string `form:"phone" json:"phone" binding:"required,len=11"`
-	RoleId int    `form:"role_id" json:"role_id" binding:"required"`
+	Type   string `form:"type" json:"type" binding:"required"`
+	Router string `form:"router" json:"router" binding:"required"`
 }
 
-func UserValidate(context *gin.Context) bool {
+func RuleValidate(context *gin.Context) bool {
 	if err := ValidatorTrans("zh"); err != nil {
 		utils.Error(context, err.Error())
 		return false
@@ -24,7 +25,7 @@ func UserValidate(context *gin.Context) bool {
 	data, _ := ioutil.ReadAll(context.Request.Body)
 	// 再重新写回请求体body中
 	context.Request.Body = ioutil.NopCloser(bytes.NewBuffer(data))
-	var l User
+	var l Rule
 	err := context.ShouldBindWith(&l, binding.JSON)
 	if err != nil {
 		if errs, ok := err.(validator.ValidationErrors); ok {

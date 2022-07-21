@@ -56,11 +56,17 @@ func main() {
 		})
 		//规则添加
 		auth.POST("/rule/add", func(c *gin.Context) {
-			admin.RuleAdd(c)
+			bol := validate.RuleValidate(c)
+			if bol {
+				admin.RuleAdd(c)
+			}
 		})
 		//规则修改
 		auth.PUT("/rule/edit/:id", func(c *gin.Context) {
-			admin.RuleEdit(c)
+			bol := validate.RuleValidate(c)
+			if bol {
+				admin.RuleEdit(c)
+			}
 		})
 		//规则删除
 		auth.DELETE("/rule/del/:id", func(c *gin.Context) {
@@ -73,11 +79,17 @@ func main() {
 		})
 		//角色新增
 		auth.POST("/role/add", func(c *gin.Context) {
-			admin.RoleAdd(c)
+			bol := validate.RoleValidate(c)
+			if bol {
+				admin.RoleAdd(c)
+			}
 		})
 		//角色修改
 		auth.PUT("/role/edit/:id", func(c *gin.Context) {
-			admin.RoleEdit(c)
+			bol := validate.RoleValidate(c)
+			if bol {
+				admin.RoleEdit(c)
+			}
 		})
 		//角色删除
 		auth.DELETE("/role/del/:id", func(c *gin.Context) {

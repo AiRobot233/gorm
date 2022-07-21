@@ -4,7 +4,6 @@ import (
 	"gin/services/admin"
 	"gin/utils"
 	"github.com/gin-gonic/gin"
-	"strconv"
 )
 
 //列表
@@ -17,15 +16,16 @@ func UserList(c *gin.Context) {
 
 //新增
 func UserAdd(c *gin.Context) {
-	password := c.DefaultPostForm("password", "@112233")
-	name := c.PostForm("name")
-	phone := c.PostForm("phone")
-	roleId := c.PostForm("role_id")
-	status := c.DefaultPostForm("status", "1")
-	sta, _ := strconv.Atoi(status)  //转int
-	role, _ := strconv.Atoi(roleId) //转int
-	bol, res := admin.UserAdd(password, name, phone, role, sta)
-	utils.Send(c, bol, res)
+	var params map[string]interface{}
+	params = make(map[string]interface{})
+	err := c.BindJSON(&params)
+	if err == nil {
+		bol, res := admin.UserAdd(params)
+		utils.Send(c, bol, res)
+	} else {
+		utils.Error(c, err.Error())
+	}
+
 }
 
 //修改
