@@ -16,7 +16,7 @@ func RoleList(page string, pageSize string) (bool, interface{}) {
 //角色新增
 func RoleAdd(params map[string]interface{}) (bool, interface{}) {
 	role := model.Role{}
-	model.RoleSetFromData(&role, params)
+	role.RoleSetFromData(params)
 	result := db.Create(&role)
 	return utils.R(result, nil)
 }
@@ -25,7 +25,7 @@ func RoleAdd(params map[string]interface{}) (bool, interface{}) {
 func RoleEdit(id string, params map[string]interface{}) (bool, interface{}) {
 	role := model.Role{}
 	db.First(&role, id)
-	model.RoleSetFromData(&role, params)
+	role.RoleSetFromData(params)
 	result := db.Save(&role)
 	return utils.R(result, nil)
 }

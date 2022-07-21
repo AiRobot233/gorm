@@ -27,17 +27,17 @@ func (*Rule) TableName() string {
 }
 
 //设置数据
-func RuleSetFromData(rule *Rule, params map[string]interface{}) {
-	rule.Pid = int(params["pid"].(float64))
-	rule.Name = params["name"].(string)
-	rule.Type = params["type"].(string)
-	rule.Router = params["router"].(string)
+func (r *Rule) RuleSetFromData(params map[string]interface{}) {
+	r.Pid = int(params["pid"].(float64))
+	r.Name = params["name"].(string)
+	r.Type = params["type"].(string)
+	r.Router = params["router"].(string)
 	if params["sort"] != nil {
-		rule.Sort = int(params["sort"].(float64))
+		r.Sort = int(params["sort"].(float64))
 	}
 	if params["method"] != nil {
 		method := params["method"].(string)
-		rule.Method = &method
+		r.Method = &method
 	}
 }
 

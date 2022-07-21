@@ -22,10 +22,10 @@ func (*Role) TableName() string {
 }
 
 //设置数据体
-func RoleSetFromData(role *Role, params map[string]interface{}) {
-	role.Pid = int(params["pid"].(float64))
-	role.Name = params["name"].(string)
-	role.Rule = params["rule"].(string)
+func (r *Role) RoleSetFromData(params map[string]interface{}) {
+	r.Pid = int(params["pid"].(float64))
+	r.Name = params["name"].(string)
+	r.Rule = params["rule"].(string)
 }
 
 //删除事件

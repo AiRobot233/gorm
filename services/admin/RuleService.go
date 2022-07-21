@@ -15,7 +15,7 @@ func RuleList() (bool, interface{}) {
 //规则添加
 func RuleAdd(params map[string]interface{}) (bool, interface{}) {
 	rule := model.Rule{}
-	model.RuleSetFromData(&rule, params)
+	rule.RuleSetFromData(params)
 	result := db.Create(&rule)
 	return utils.R(result, nil)
 }
@@ -24,7 +24,7 @@ func RuleAdd(params map[string]interface{}) (bool, interface{}) {
 func RuleEdit(id string, params map[string]interface{}) (bool, interface{}) {
 	rule := model.Rule{}
 	db.First(&rule, id)
-	model.RuleSetFromData(&rule, params)
+	rule.RuleSetFromData(params)
 	result := db.Save(&rule)
 	return utils.R(result, nil)
 }
