@@ -26,7 +26,7 @@ func UserAdd(params map[string]interface{}) (bool, interface{}) {
 	//判断值是否存在
 	var status int
 	if _, ok := params["password"]; !ok {
-		params["password"] = "@112233"
+		params["password"] = "Aa@112233"
 	}
 	if _, ok := params["status"]; !ok {
 		status = 1
@@ -55,6 +55,10 @@ func UserEdit(id string, params map[string]interface{}) (bool, interface{}) {
 	user.RoleId = int(params["role_id"].(float64))
 	user.Status = int(params["status"].(float64))
 	if params["password"] != nil && params["password"] != "" {
+		err := utils.CheckPasswordLever(params["password"].(string)) //校验密码安全性
+		if err != nil {
+			return false, err.Error()
+		}
 		user.Password = utils.Md5(params["password"].(string) + user.Salt)
 	}
 	result := db.Save(&user)

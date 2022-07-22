@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"gorm.io/gorm"
 	"math/rand"
+	"regexp"
 	"strconv"
 	"time"
 )
@@ -94,4 +95,28 @@ func JSONMethod(content interface{}) []map[string]interface{} {
 		}
 	}
 	return name
+}
+
+//校验密码长度
+func CheckPasswordLever(ps string) error {
+	if len(ps) < 8 {
+		return fmt.Errorf("密码长度必须大于9位")
+	}
+	num := `[0-9]{1}`
+	a_z := `[a-z]{1}`
+	A_Z := `[A-Z]{1}`
+	symbol := `[!@#~$%^&*()+|_]{1}`
+	if b, err := regexp.MatchString(num, ps); !b || err != nil {
+		return fmt.Errorf("密码需要数字")
+	}
+	if b, err := regexp.MatchString(a_z, ps); !b || err != nil {
+		return fmt.Errorf("密码需要小写字母")
+	}
+	if b, err := regexp.MatchString(A_Z, ps); !b || err != nil {
+		return fmt.Errorf("密码需要大写字母")
+	}
+	if b, err := regexp.MatchString(symbol, ps); !b || err != nil {
+		return fmt.Errorf("密码需要特殊符号")
+	}
+	return nil
 }
