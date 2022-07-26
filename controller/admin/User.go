@@ -18,7 +18,7 @@ func UserList(c *gin.Context) {
 func UserAdd(c *gin.Context) {
 	var params map[string]interface{}
 	params = make(map[string]interface{})
-	if err := c.BindJSON(&params); err == nil {
+	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, res := admin.UserAdd(params)
 		utils.Send(c, bol, res)
 	} else {
@@ -31,7 +31,7 @@ func UserEdit(c *gin.Context) {
 	id := c.Param("id")
 	var params map[string]interface{}
 	params = make(map[string]interface{})
-	if err := c.BindJSON(&params); err == nil {
+	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, res := admin.UserEdit(id, params)
 		utils.Send(c, bol, res)
 	} else {

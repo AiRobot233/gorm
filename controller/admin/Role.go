@@ -18,7 +18,7 @@ func RoleList(c *gin.Context) {
 func RoleAdd(c *gin.Context) {
 	var params map[string]interface{}     //声明变量，不分配内存
 	params = make(map[string]interface{}) //必可不少，分配内存
-	if err := c.Bind(&params); err == nil {
+	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, data := admin.RoleAdd(params)
 		utils.Send(c, bol, data)
 	} else {
@@ -31,7 +31,7 @@ func RoleEdit(c *gin.Context) {
 	id := c.Param("id")
 	var params map[string]interface{}     //声明变量，不分配内存
 	params = make(map[string]interface{}) //必可不少，分配内存
-	if err := c.BindJSON(&params); err == nil {
+	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, res := admin.RoleEdit(id, params)
 		utils.Send(c, bol, res)
 	} else {
