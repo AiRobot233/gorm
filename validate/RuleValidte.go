@@ -32,6 +32,8 @@ func RuleValidate(context *gin.Context) bool {
 			utils.ValidateError(context, errs.Translate(Trans))
 			return false
 		}
+		utils.Error(context, err.Error())
+		return false
 	}
 	// 再重新写回请求体body中
 	context.Request.Body = ioutil.NopCloser(bytes.NewBuffer(data))

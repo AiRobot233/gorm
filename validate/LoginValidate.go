@@ -25,6 +25,8 @@ func LoginValidate(context *gin.Context) bool {
 			utils.ValidateError(context, errs.Translate(Trans))
 			return false
 		}
+		utils.Error(context, err.Error())
+		return false
 	}
 	return true
 }

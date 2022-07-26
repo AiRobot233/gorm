@@ -8,8 +8,7 @@ import (
 //登录
 func Login(phone string, password string) (bool, string) {
 	user := model.User{}
-	user.Phone = phone
-	result := db.First(&user)
+	result := db.Where("phone = ?", phone).First(&user)
 	if result.RowsAffected > 0 {
 		//判断用户是否禁用
 		if user.Status == 1 {

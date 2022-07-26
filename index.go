@@ -96,6 +96,23 @@ func main() {
 			admin.RoleDel(c)
 		})
 
+		//字典列表
+		auth.GET("/dictionary/list", func(c *gin.Context) {
+			admin.DictionaryList(c)
+		})
+		//字典新增
+		auth.POST("/dictionary/add", func(c *gin.Context) {
+
+		})
+		//字典修改
+		auth.PUT("/dictionary/edit/:id", func(c *gin.Context) {
+
+		})
+		//字典删除
+		auth.DELETE("/dictionary/del/:id", func(c *gin.Context) {
+
+		})
+
 		//上传文件
 		auth.POST("/upload", func(c *gin.Context) {
 			controller.Upload(c)
