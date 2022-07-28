@@ -20,6 +20,10 @@ func main() {
 			}
 		})
 
+		a.POST("/test", func(c *gin.Context) {
+			controller.Test(c)
+		})
+
 		//鉴权
 		auth := a.Use(middleware.LoginAuth())
 		//获取用户权限

@@ -21,7 +21,7 @@ func Upload(context *gin.Context) {
 	dst := build() + "/" + rand + ext
 	err := context.SaveUploadedFile(file, dst)
 	if err != nil {
-		utils.Error(context, err)
+		utils.Error(context, err.Error())
 	} else {
 		utils.Success(context, "")
 	}
