@@ -6,11 +6,10 @@ import (
 )
 
 //角色列表
-func RoleList(page string, pageSize string) (bool, interface{}) {
-	role := model.Role{}
-	var count int64
-	result := db.Table("role").Scopes(model.Paginate(page, pageSize)).Scan(&role).Count(&count)
-	return utils.R(result, utils.P(role, count))
+func RoleList() (bool, interface{}) {
+	var role []*model.RoleTree
+	result := db.Find(&role)
+	return utils.R(result, RoleTree(role, 0))
 }
 
 //角色新增
@@ -39,4 +38,11 @@ func RoleDel(id string) (bool, interface{}) {
 	}
 	result := db.Delete(&role)
 	return utils.R(result, nil)
+}
+
+//下拉
+func RoleSelect() (bool, interface{}) {
+	var role []*model.RoleTree
+	result := db.Find(&role)
+	return utils.R(result, RoleTree(role, 0))
 }

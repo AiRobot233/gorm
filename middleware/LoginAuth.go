@@ -7,7 +7,7 @@ import (
 
 func LoginAuth() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		token := context.GetHeader("token")
+		token := context.GetHeader("Authorization")
 		if token == "" {
 			utils.Error(context, "未登录", 401)
 			context.Abort()

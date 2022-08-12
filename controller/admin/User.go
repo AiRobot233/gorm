@@ -9,7 +9,7 @@ import (
 //列表
 func UserList(c *gin.Context) {
 	page := c.DefaultQuery("page", "1")
-	pageSize := c.DefaultQuery("pageSize", "2")
+	pageSize := c.DefaultQuery("pageSize", "10")
 	bol, res := admin.UserList(page, pageSize)
 	utils.Send(c, bol, res)
 }

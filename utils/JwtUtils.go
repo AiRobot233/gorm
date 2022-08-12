@@ -14,23 +14,29 @@ type MyStandardClaims struct {
 }
 
 //获取jwt
-func GetJwt(data interface{}, hour ...int) string {
+func GetJwt(data interface{}, hour ...int) (bool, interface{}) {
 	if len(hour) > 0 {
 		h = hour[0]
 	}
+	expireAt := time.Now().Add(time.Hour * time.Duration(h)).Unix()
 	ms := MyStandardClaims{
 		Data: data,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * time.Duration(h)).Unix(),
+			ExpiresAt: expireAt,
 			Issuer:    "hc",
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &ms)
 	signedString, err := token.SignedString(myKey)
 	if err != nil {
-		return err.Error()
+		return false, err
 	}
-	return signedString
+	var res map[string]interface{}     //声明变量，不分配内存
+	res = make(map[string]interface{}) //必可不少，分配内存
+	res["token"] = signedString
+	res["expireAt"] = expireAt
+	res["user"] = data
+	return true, res
 }
 
 //解析验证jwt

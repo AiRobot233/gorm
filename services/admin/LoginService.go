@@ -6,17 +6,19 @@ import (
 )
 
 //登录
-func Login(phone string, password string) (bool, string) {
+func Login(params map[string]interface{}) (bool, interface{}) {
+	name := params["name"].(string)
+	password := params["password"].(string)
 	user := model.User{}
-	result := db.Where("phone = ?", phone).First(&user)
+	result := db.Where("phone = ?", name).First(&user)
 	if result.RowsAffected > 0 {
 		//判断用户是否禁用
 		if user.Status == 1 {
 			p := utils.Md5(password + user.Salt)
 			if p == user.Password {
 				//登录成功
-				token := utils.GetJwt(user)
-				return true, token
+				bol, token := utils.GetJwt(user)
+				return bol, token
 			} else {
 				return false, "密码错误"
 			}

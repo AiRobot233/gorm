@@ -6,7 +6,7 @@ import (
 )
 
 var successMsg = "success" //成功默认值
-var errorCode = 400        //失败code码
+var errorCode = 200        //失败code码
 
 func Success(context *gin.Context, data interface{}, msg ...string) {
 	if len(msg) > 0 {

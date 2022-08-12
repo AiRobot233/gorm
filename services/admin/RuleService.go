@@ -39,3 +39,9 @@ func RuleDel(id string) (bool, interface{}) {
 	result := db.Delete(&rule)
 	return utils.R(result, nil)
 }
+
+func RuleSelect() (bool, interface{}) {
+	var rule []*model.RuleTree
+	result := db.Find(&rule)
+	return utils.R(result, RuleTree(rule, 0))
+}

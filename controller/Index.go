@@ -10,7 +10,7 @@ func Jwt(context *gin.Context) {
 	data = make(map[string]interface{}) //初始化map
 	data["uid"] = 1
 	data["user_name"] = "hhh"
-	token := utils.GetJwt(data, 21)
+	_, token := utils.GetJwt(data, 21)
 	utils.Success(context, token)
 }
 

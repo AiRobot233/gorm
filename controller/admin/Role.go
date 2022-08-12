@@ -8,9 +8,7 @@ import (
 
 //角色列表
 func RoleList(c *gin.Context) {
-	page := c.DefaultQuery("page", "1")
-	pageSize := c.DefaultQuery("pageSize", "2")
-	bol, res := admin.RoleList(page, pageSize)
+	bol, res := admin.RoleList()
 	utils.Send(c, bol, res)
 }
 
@@ -43,5 +41,11 @@ func RoleEdit(c *gin.Context) {
 func RoleDel(c *gin.Context) {
 	id := c.Param("id")
 	bol, res := admin.RoleDel(id)
+	utils.Send(c, bol, res)
+}
+
+//下拉
+func RoleSelect(c *gin.Context) {
+	bol, res := admin.RoleSelect()
 	utils.Send(c, bol, res)
 }

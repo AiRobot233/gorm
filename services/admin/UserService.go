@@ -3,21 +3,17 @@ package admin
 import (
 	"gin/model"
 	"gin/utils"
+	"gorm.io/gorm"
 )
-
-//定义列表展示字段
-type listUser struct {
-	Id        int             `json:"id"`
-	Name      string          `json:"name"`
-	Phone     string          `json:"phone"`
-	CreatedAt utils.LocalTime `json:"created_at"`
-}
 
 //列表
 func UserList(page string, pageSize string) (bool, interface{}) {
-	var users []listUser //定义表结构
+	var users []model.User //定义表结构
 	var count int64
-	result := db.Table("user").Select([]string{"id", "name", "phone", "created_at"}).Scopes(model.Paginate(page, pageSize)).Scan(&users).Count(&count)
+	db.Table("user").Count(&count)
+	result := db.Debug().Table("user").Preload("Role", func(db *gorm.DB) *gorm.DB {
+		return db.Select([]string{"id", "name"})
+	}).Select([]string{"id", "name", "phone", "role_id", "status", "created_at"}).Scopes(model.Paginate(page, pageSize)).Find(&users)
 	return utils.R(result, utils.P(users, count))
 }
 

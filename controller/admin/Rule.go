@@ -42,3 +42,9 @@ func RuleDel(c *gin.Context) {
 	bol, res := admin.RuleDel(id)
 	utils.Send(c, bol, res)
 }
+
+//规则下拉
+func RuleSelect(c *gin.Context) {
+	bol, res := admin.RuleSelect()
+	utils.Send(c, bol, res)
+}
