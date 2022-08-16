@@ -40,8 +40,12 @@ func RuleDel(id string) (bool, interface{}) {
 	return utils.R(result, nil)
 }
 
-func RuleSelect() (bool, interface{}) {
+func RuleSelect(types string) (bool, interface{}) {
 	var rule []*model.RuleTree
-	result := db.Find(&rule)
+	var where model.Rule
+	if types != "" {
+		where.Type = types
+	}
+	result := db.Find(&rule, where)
 	return utils.R(result, RuleTree(rule, 0))
 }

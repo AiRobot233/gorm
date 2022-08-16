@@ -24,22 +24,23 @@ func main() {
 			controller.Test(c)
 		})
 
-		notLogin := a.Use(middleware.LoginAuth())
+		notRule := a.Use(middleware.LoginAuth())
 		//角色下拉
-		notLogin.GET("/role/select", func(c *gin.Context) {
+		notRule.GET("/role/select", func(c *gin.Context) {
 			admin.RoleSelect(c)
 		})
 		//规则下拉
-		notLogin.GET("/rule/select", func(c *gin.Context) {
+		notRule.GET("/rule/select", func(c *gin.Context) {
 			admin.RuleSelect(c)
 		})
 
-		//鉴权
-		auth := a.Use(middleware.LoginAuth())
 		//获取用户权限
-		auth.GET("/routes", func(c *gin.Context) {
+		notRule.GET("/routes", func(c *gin.Context) {
 			admin.GetRoutes(c)
 		})
+
+		//鉴权
+		auth := a.Use(middleware.LoginAuth()).Use(middleware.RuleAuth())
 
 		//用户列表
 		auth.GET("/user", func(c *gin.Context) {

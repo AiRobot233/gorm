@@ -8,7 +8,7 @@ import (
 //
 type Rule struct {
 	Id     int     `gorm:"column:id" json:"id,omitempty"`         //是否可空:NO
-	Pid    int     `gorm:"column:pid" json:"pid,omitempty"`       //是否可空:NO 上级id
+	Pid    int     `gorm:"column:pid" json:"pid"`                 //是否可空:NO 上级id
 	Name   string  `gorm:"column:name" json:"name,omitempty"`     //是否可空:NO 规则名称
 	Type   string  `gorm:"column:type" json:"type,omitempty"`     //是否可空:NO 类型
 	Method *string `gorm:"column:method" json:"method"`           //是否可空:YES 请求类型

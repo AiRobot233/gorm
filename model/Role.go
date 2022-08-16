@@ -9,7 +9,7 @@ import (
 //
 type Role struct {
 	Id        int              `gorm:"column:id" json:"id,omitempty"`                         //是否可空:NO
-	Pid       int              `gorm:"column:pid" json:"pid,omitempty"`                       //是否可空:NO 上级id
+	Pid       int              `gorm:"column:pid" json:"pid"`                                 //是否可空:NO 上级id
 	Name      string           `gorm:"column:name" json:"name,omitempty"`                     //是否可空:NO 名称
 	Rule      string           `gorm:"column:rule" json:"rule,omitempty"`                     //是否可空:NO 权限
 	CreatedAt *utils.LocalTime `gorm:"column:created_at" json:"created_at,omitempty"`         //是否可空:NO

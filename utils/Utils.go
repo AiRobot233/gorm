@@ -120,3 +120,13 @@ func CheckPasswordLever(ps string) error {
 	}
 	return nil
 }
+
+//判断数据是否在数组中
+func InArray(arr []string, str string) bool {
+	for _, v := range arr {
+		if v == str {
+			return true
+		}
+	}
+	return false
+}
