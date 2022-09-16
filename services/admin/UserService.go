@@ -7,7 +7,7 @@ import (
 )
 
 //列表
-func UserList(page string, pageSize string) (bool, interface{}) {
+func UserList(page string, pageSize string, user map[string]interface{}) (bool, interface{}) {
 	var users []model.User //定义表结构
 	var count int64
 	db.Table("user").Count(&count)
@@ -51,11 +51,11 @@ func UserEdit(id string, params map[string]interface{}) (bool, interface{}) {
 	user.RoleId = int(params["role_id"].(float64))
 	user.Status = int(params["status"].(float64))
 	if params["password"] != nil && params["password"] != "" {
-		err := utils.CheckPasswordLever(params["password"].(string)) //校验密码安全性
-		if err != nil {
-			return false, err.Error()
+		bol, res := SetPwd(params["password"].(string), user.Salt)
+		if bol != true {
+			return false, res
 		}
-		user.Password = utils.Md5(params["password"].(string) + user.Salt)
+		user.Password = res
 	}
 	result := db.Save(&user)
 	return utils.R(result, nil)
@@ -66,4 +66,13 @@ func UserDel(id string) (bool, interface{}) {
 	user := model.User{}
 	result := db.Delete(&user, id)
 	return utils.R(result, nil)
+}
+
+//修改密码操作
+func SetPwd(password string, salt string) (bool, string) {
+	err := utils.CheckPasswordLever(password) //校验密码安全性
+	if err != nil {
+		return false, err.Error()
+	}
+	return true, utils.Md5(password + salt)
 }

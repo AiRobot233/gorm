@@ -27,9 +27,9 @@ func (*User) TableName() string {
 
 func (u *User) BeforeSave(tx *gorm.DB) (err error) {
 	user := User{}
-	result := tx.Model(u).Where("id != ? AND phone = ?", u.Id, u.Phone).First(&user)
+	result := tx.Model(u).Where("id != ? AND (`phone` = ? OR `name` = ?)", u.Id, u.Phone, u.Name).First(&user)
 	if result.RowsAffected > 0 {
-		return errors.New("手机号已存在")
+		return errors.New("手机号或名称已存在")
 	}
 	return
 }

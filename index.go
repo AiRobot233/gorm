@@ -38,6 +38,10 @@ func main() {
 		notRule.GET("/routes", func(c *gin.Context) {
 			admin.GetRoutes(c)
 		})
+		//修改自己的登录密码
+		notRule.PUT("/change/pwd", func(c *gin.Context) {
+			admin.ChangePwd(c)
+		})
 
 		//鉴权
 		auth := a.Use(middleware.LoginAuth()).Use(middleware.RuleAuth())

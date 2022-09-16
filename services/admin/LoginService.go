@@ -10,7 +10,7 @@ func Login(params map[string]interface{}) (bool, interface{}) {
 	name := params["name"].(string)
 	password := params["password"].(string)
 	user := model.User{}
-	result := db.Where("phone = ?", name).First(&user)
+	result := db.Where("(`phone` = ? OR `name` = ?)", name, name).First(&user)
 	if result.RowsAffected > 0 {
 		//判断用户是否禁用
 		if user.Status == 1 {

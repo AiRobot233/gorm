@@ -36,3 +36,26 @@ func GetRoutes(user map[string]interface{}) (bool, interface{}) {
 	data["roles"] = roles
 	return utils.R(result, data)
 }
+
+//修改自己密码
+func ChangePwd(params map[string]interface{}, user map[string]interface{}) (bool, interface{}) {
+	oldPassword := params["old_password"].(string)
+	password := params["password"].(string)
+	u := model.User{}
+	result := db.First(&u, user["id"].(float64))
+	if result.RowsAffected <= 0 {
+		return false, "用户未找到！"
+	}
+	if utils.Md5(oldPassword+u.Salt) == u.Password {
+		//旧密码正确
+		bol, data := SetPwd(password, u.Salt)
+		if bol != true {
+			return false, data
+		}
+		u.Password = data
+		res := db.Save(&u)
+		return utils.R(res, nil)
+	} else {
+		return false, "旧密码错误！"
+	}
+}
