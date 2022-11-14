@@ -30,8 +30,7 @@ func GetRoutes(user map[string]interface{}) (bool, interface{}) {
 		result = db.Where("id IN ? AND type = ?", strings.Split(role.Rule, `,`), "page").Order("sort desc").Find(&rules) //查询规则
 		db.Raw("SELECT b.router,a.operation FROM rule AS b LEFT JOIN (SELECT pid,GROUP_CONCAT(method SEPARATOR ',') AS operation FROM `rule` WHERE type = 'api' AND id IN ? GROUP BY pid) AS a ON a.pid = b.id WHERE a.operation IS NOT NULL", strings.Split(role.Rule, `,`)).Find(&roles)
 	}
-	var data map[string]interface{}     //定义map
-	data = make(map[string]interface{}) //初始化map
+	data := utils.GetSlice()
 	data["routes"] = RuleTree(rules, 0)
 	data["roles"] = roles
 	return utils.R(result, data)

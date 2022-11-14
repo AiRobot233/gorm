@@ -6,8 +6,7 @@ import (
 )
 
 func Jwt(context *gin.Context) {
-	var data map[string]interface{}     //定义map
-	data = make(map[string]interface{}) //初始化map
+	data := utils.GetSlice()
 	data["uid"] = 1
 	data["user_name"] = "hhh"
 	_, token := utils.GetJwt(data, 21)
@@ -20,8 +19,7 @@ func A(context *gin.Context) {
 }
 
 func Test(c *gin.Context) {
-	var params map[string]interface{}     //声明变量，不分配内存
-	params = make(map[string]interface{}) //必可不少，分配内存
+	params := utils.GetSlice()
 	if err := c.ShouldBind(&params); err == nil {
 		utils.Success(c, params)
 	} else {

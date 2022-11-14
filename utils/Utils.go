@@ -63,8 +63,7 @@ func GetSalt(str string) string {
 
 //输出分页
 func P(data interface{}, count int64) map[string]interface{} {
-	var p map[string]interface{}     //定义map
-	p = make(map[string]interface{}) //初始化map
+	p := GetSlice()
 	p["list"] = data
 	p["total"] = count
 	return p
@@ -129,4 +128,11 @@ func InArray(arr []string, str string) bool {
 		}
 	}
 	return false
+}
+
+//返回数组切片数据
+func GetSlice() map[string]interface{} {
+	var params map[string]interface{}     //声明变量，不分配内存
+	params = make(map[string]interface{}) //必可不少，分配内存
+	return params
 }

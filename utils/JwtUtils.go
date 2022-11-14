@@ -31,8 +31,7 @@ func GetJwt(data interface{}, hour ...int) (bool, interface{}) {
 	if err != nil {
 		return false, err
 	}
-	var res map[string]interface{}     //声明变量，不分配内存
-	res = make(map[string]interface{}) //必可不少，分配内存
+	res := GetSlice()
 	res["token"] = signedString
 	res["expireAt"] = expireAt
 	res["user"] = data

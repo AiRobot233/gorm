@@ -104,8 +104,7 @@ func getPostFormParams(c *gin.Context) (map[string]interface{}, error) {
 
 //获取post json参数
 func getPostJsonParams(c *gin.Context) (map[string]interface{}, error) {
-	var params map[string]interface{}     //声明变量，不分配内存
-	params = make(map[string]interface{}) //必可不少，分配内存
+	params := utils.GetSlice()
 	if err := c.ShouldBindBodyWith(&params, binding.JSON); err == nil {
 		return params, nil
 	} else {

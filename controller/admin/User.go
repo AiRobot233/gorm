@@ -17,8 +17,7 @@ func UserList(c *gin.Context) {
 
 //新增
 func UserAdd(c *gin.Context) {
-	var params map[string]interface{}
-	params = make(map[string]interface{})
+	params := utils.GetSlice()
 	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, res := admin.UserAdd(params)
 		utils.Send(c, bol, res)
@@ -30,8 +29,7 @@ func UserAdd(c *gin.Context) {
 //修改
 func UserEdit(c *gin.Context) {
 	id := c.Param("id")
-	var params map[string]interface{}
-	params = make(map[string]interface{})
+	params := utils.GetSlice()
 	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, res := admin.UserEdit(id, params)
 		utils.Send(c, bol, res)

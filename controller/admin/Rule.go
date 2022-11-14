@@ -13,8 +13,7 @@ func RuleList(c *gin.Context) {
 
 //规则添加
 func RuleAdd(c *gin.Context) {
-	var params map[string]interface{}     //声明变量，不分配内存
-	params = make(map[string]interface{}) //必可不少，分配内存
+	params := utils.GetSlice()
 	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, data := admin.RuleAdd(params)
 		utils.Send(c, bol, data)
@@ -26,8 +25,7 @@ func RuleAdd(c *gin.Context) {
 //规则修改
 func RuleEdit(c *gin.Context) {
 	id := c.Param("id")
-	var params map[string]interface{}     //声明变量，不分配内存
-	params = make(map[string]interface{}) //必可不少，分配内存
+	params := utils.GetSlice()
 	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, res := admin.RuleEdit(id, params)
 		utils.Send(c, bol, res)

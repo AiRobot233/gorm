@@ -20,8 +20,7 @@ func GetRoutes(c *gin.Context) {
 func ChangePwd(c *gin.Context) {
 	user, err := c.Get("user")
 	if err {
-		var params map[string]interface{}     //声明变量，不分配内存
-		params = make(map[string]interface{}) //必可不少，分配内存
+		params := utils.GetSlice()
 		if err := c.ShouldBindJSON(&params); err == nil {
 			bol, data := admin.ChangePwd(params, user.(map[string]interface{}))
 			utils.Send(c, bol, data)
