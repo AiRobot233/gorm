@@ -1,5 +1,10 @@
 package model
 
+import (
+	"errors"
+	"gorm.io/gorm"
+)
+
 //
 type Dictionary struct {
 	Id    int    `gorm:"column:id" json:"id"`       //是否可空:NO
@@ -17,4 +22,46 @@ func (*Dictionary) TableName() string {
 type DictionaryTree struct {
 	Dictionary
 	Child []*DictionaryTree `gorm:"-" json:"children"`
+}
+
+//设置数据
+func (r *Dictionary) DictionarySetFromData(params map[string]interface{}) {
+	r.Pid = int(params["pid"].(float64))
+	r.Name = params["name"].(string)
+	r.Value = params["value"].(string)
+	if params["sort"] != nil {
+		r.Sort = int(params["sort"].(float64))
+	} else {
+		r.Sort = 0
+	}
+}
+
+//删除事件
+func (r *Dictionary) BeforeDelete(tx *gorm.DB) (err error) {
+	dictionary := Dictionary{}
+	result := tx.Model(r).Where("pid = ?", r.Id).First(&dictionary)
+	if result.RowsAffected > 0 {
+		return errors.New("有子级不允许删除")
+	}
+	return
+}
+
+//添加事件
+func (r *Dictionary) BeforeCreate(tx *gorm.DB) (err error) {
+	dictionary := Dictionary{}
+	result := tx.Model(r).Where("name = ?", r.Name).First(&dictionary)
+	if result.RowsAffected > 0 {
+		return errors.New("添加时名称不能相同")
+	}
+	return
+}
+
+//修改事件
+func (r *Dictionary) BeforeUpdate(tx *gorm.DB) (err error) {
+	dictionary := Dictionary{}
+	result := tx.Model(r).Where("name = ?", r.Name).First(&dictionary)
+	if result.RowsAffected > 0 {
+		return errors.New("修改时名称不能相同")
+	}
+	return
 }

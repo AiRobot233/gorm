@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+var db = model.GetDb()
+
 func RuleAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		url := strings.Split(c.Request.URL.String(), "?")[0]
@@ -28,7 +30,7 @@ func RuleAuth() gin.HandlerFunc {
 		if err {
 			var u *model.User
 			data := user.(map[string]interface{})
-			model.GetDb().First(&u, data["id"])
+			db.First(&u, data["id"])
 			if u.Id <= 0 {
 				utils.Error(c, "用户已被删除", 401)
 				c.Abort()
@@ -36,7 +38,7 @@ func RuleAuth() gin.HandlerFunc {
 			}
 			//查询规则
 			var rule *model.Rule
-			model.GetDb().Where("router = ? AND method = ?", url, method).First(&rule)
+			db.Where("router = ? AND method = ?", url, method).First(&rule)
 			if rule.Id <= 0 {
 				utils.Error(c, "接口地址未配置")
 				c.Abort()
@@ -44,7 +46,7 @@ func RuleAuth() gin.HandlerFunc {
 			}
 			//查询角色
 			var role *model.Role
-			model.GetDb().Where("id = ?", u.RoleId).First(&role)
+			db.Where("id = ?", u.RoleId).First(&role)
 			if role.Id <= 0 {
 				utils.Error(c, "角色已被删除，请联系管理员修复")
 				c.Abort()
