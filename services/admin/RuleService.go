@@ -5,14 +5,14 @@ import (
 	"gin/utils"
 )
 
-//规则列表 树状
+// RuleList 规则列表 树状
 func RuleList() (bool, interface{}) {
 	var rule []*model.RuleTree
 	result := db.Find(&rule)
 	return utils.R(result, RuleTree(rule, 0))
 }
 
-//规则添加
+// RuleAdd 规则添加
 func RuleAdd(params map[string]interface{}) (bool, interface{}) {
 	rule := model.Rule{}
 	rule.RuleSetFromData(params)
@@ -20,7 +20,7 @@ func RuleAdd(params map[string]interface{}) (bool, interface{}) {
 	return utils.R(result, nil)
 }
 
-//规则修改
+// RuleEdit 规则修改
 func RuleEdit(id string, params map[string]interface{}) (bool, interface{}) {
 	rule := model.Rule{}
 	db.First(&rule, id)
@@ -29,7 +29,7 @@ func RuleEdit(id string, params map[string]interface{}) (bool, interface{}) {
 	return utils.R(result, nil)
 }
 
-//规则删除
+// RuleDel 规则删除
 func RuleDel(id string) (bool, interface{}) {
 	rule := model.Rule{}
 	res := db.Where("id = ?", id).First(&rule)

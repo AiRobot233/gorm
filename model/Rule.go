@@ -5,7 +5,6 @@ import (
 	"gorm.io/gorm"
 )
 
-//
 type Rule struct {
 	Id     int     `gorm:"column:id" json:"id,omitempty"`         //是否可空:NO
 	Pid    int     `gorm:"column:pid" json:"pid"`                 //是否可空:NO 上级id
@@ -16,7 +15,7 @@ type Rule struct {
 	Sort   int     `gorm:"column:sort" json:"sort"`               //是否可空:NO 排序
 }
 
-//定义树状结构体
+// RuleTree 定义树状结构体
 type RuleTree struct {
 	Rule
 	Child []*RuleTree `gorm:"-" json:"children"`
@@ -26,7 +25,7 @@ func (*Rule) TableName() string {
 	return "rule"
 }
 
-//设置数据
+// RuleSetFromData 设置数据
 func (r *Rule) RuleSetFromData(params map[string]interface{}) {
 	r.Pid = int(params["pid"].(float64))
 	r.Name = params["name"].(string)
@@ -41,7 +40,7 @@ func (r *Rule) RuleSetFromData(params map[string]interface{}) {
 	}
 }
 
-//删除事件
+// BeforeDelete 删除事件
 func (r *Rule) BeforeDelete(tx *gorm.DB) (err error) {
 	rule := Rule{}
 	result := tx.Model(r).Where("pid = ?", r.Id).First(&rule)

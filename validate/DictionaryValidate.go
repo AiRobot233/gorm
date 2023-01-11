@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 )
 
-//数据体最好公开可以外部直接调用
+// Dictionary 数据体最好公开可以外部直接调用
 type Dictionary struct {
 	Name  string `form:"name" json:"name" binding:"required"`
 	Value string `form:"value" json:"value" binding:"required"`

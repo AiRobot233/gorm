@@ -11,7 +11,7 @@ func RuleList(c *gin.Context) {
 	utils.Send(c, bol, res)
 }
 
-//规则添加
+// RuleAdd 规则添加
 func RuleAdd(c *gin.Context) {
 	params := utils.GetSlice()
 	if err := c.ShouldBindJSON(&params); err == nil {
@@ -22,7 +22,7 @@ func RuleAdd(c *gin.Context) {
 	}
 }
 
-//规则修改
+// RuleEdit 规则修改
 func RuleEdit(c *gin.Context) {
 	id := c.Param("id")
 	params := utils.GetSlice()
@@ -34,14 +34,14 @@ func RuleEdit(c *gin.Context) {
 	}
 }
 
-//规则删除
+// RuleDel 规则删除
 func RuleDel(c *gin.Context) {
 	id := c.Param("id")
 	bol, res := admin.RuleDel(id)
 	utils.Send(c, bol, res)
 }
 
-//规则下拉
+// RuleSelect 规则下拉
 func RuleSelect(c *gin.Context) {
 	types := c.DefaultQuery("type", "")
 	bol, res := admin.RuleSelect(types)

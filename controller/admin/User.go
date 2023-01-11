@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//列表
+// UserList 列表
 func UserList(c *gin.Context) {
 	page := c.DefaultQuery("page", "1")
 	pageSize := c.DefaultQuery("pageSize", "10")
@@ -15,7 +15,7 @@ func UserList(c *gin.Context) {
 	utils.Send(c, bol, res)
 }
 
-//新增
+// UserAdd 新增
 func UserAdd(c *gin.Context) {
 	params := utils.GetSlice()
 	if err := c.ShouldBindJSON(&params); err == nil {
@@ -26,7 +26,7 @@ func UserAdd(c *gin.Context) {
 	}
 }
 
-//修改
+// UserEdit 修改
 func UserEdit(c *gin.Context) {
 	id := c.Param("id")
 	params := utils.GetSlice()
@@ -38,7 +38,7 @@ func UserEdit(c *gin.Context) {
 	}
 }
 
-//删除
+// UserDel 删除
 func UserDel(c *gin.Context) {
 	id := c.Param("id")
 	bol, res := admin.UserDel(id)

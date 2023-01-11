@@ -5,7 +5,7 @@ import (
 	"gin/utils"
 )
 
-//登录
+// Login 登录
 func Login(params map[string]interface{}) (bool, interface{}) {
 	name := params["name"].(string)
 	password := params["password"].(string)

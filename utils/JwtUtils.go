@@ -13,7 +13,7 @@ type MyStandardClaims struct {
 	jwt.StandardClaims
 }
 
-//获取jwt
+// GetJwt 获取jwt
 func GetJwt(data interface{}, hour ...int) (bool, interface{}) {
 	if len(hour) > 0 {
 		h = hour[0]
@@ -38,7 +38,7 @@ func GetJwt(data interface{}, hour ...int) (bool, interface{}) {
 	return true, res
 }
 
-//解析验证jwt
+// CheckJwt 解析验证jwt
 func CheckJwt(signedString string) (bool, interface{}) {
 	claims, err := jwt.ParseWithClaims(signedString, &MyStandardClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return myKey, nil

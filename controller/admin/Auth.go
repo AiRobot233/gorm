@@ -16,7 +16,7 @@ func GetRoutes(c *gin.Context) {
 	}
 }
 
-//修改自己密码
+// ChangePwd 修改自己密码
 func ChangePwd(c *gin.Context) {
 	user, err := c.Get("user")
 	if err {

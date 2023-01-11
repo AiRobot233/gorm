@@ -6,7 +6,6 @@ import (
 	"gorm.io/gorm"
 )
 
-//
 type User struct {
 	Id        int              `gorm:"column:id;primaryKey" json:"id,omitempty"`      //是否可空:NO
 	Name      string           `gorm:"column:name" json:"name,omitempty"`             //是否可空:NO

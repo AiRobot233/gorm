@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-//列表
+// UserList 列表
 func UserList(page string, pageSize string, user map[string]interface{}) (bool, interface{}) {
 	var users []model.User //定义表结构
 	var count int64
@@ -17,7 +17,7 @@ func UserList(page string, pageSize string, user map[string]interface{}) (bool, 
 	return utils.R(result, utils.P(users, count))
 }
 
-//新增
+// UserAdd 新增
 func UserAdd(params map[string]interface{}) (bool, interface{}) {
 	//判断值是否存在
 	var status int
@@ -42,7 +42,7 @@ func UserAdd(params map[string]interface{}) (bool, interface{}) {
 	return utils.R(result, nil)
 }
 
-//修改
+// UserEdit 修改
 func UserEdit(id string, params map[string]interface{}) (bool, interface{}) {
 	user := model.User{}
 	db.First(&user, id)
@@ -61,14 +61,14 @@ func UserEdit(id string, params map[string]interface{}) (bool, interface{}) {
 	return utils.R(result, nil)
 }
 
-//删除
+// UserDel 删除
 func UserDel(id string) (bool, interface{}) {
 	user := model.User{}
 	result := db.Delete(&user, id)
 	return utils.R(result, nil)
 }
 
-//修改密码操作
+// SetPwd 修改密码操作
 func SetPwd(password string, salt string) (bool, string) {
 	err := utils.CheckPasswordLever(password) //校验密码安全性
 	if err != nil {

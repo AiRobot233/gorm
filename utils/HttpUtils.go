@@ -32,7 +32,7 @@ func Error(context *gin.Context, msg interface{}, code ...int) {
 	})
 }
 
-//表单验证错误返回
+// ValidateError 表单验证错误返回
 func ValidateError(context *gin.Context, msg map[string]string) {
 	context.JSON(412, gin.H{
 		"error":     1,
@@ -42,7 +42,7 @@ func ValidateError(context *gin.Context, msg map[string]string) {
 	})
 }
 
-//封装输出数据
+// Send 封装输出数据
 func Send(c *gin.Context, bol bool, data interface{}) {
 	if bol {
 		Success(c, data)

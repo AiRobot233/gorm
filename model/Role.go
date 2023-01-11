@@ -6,7 +6,6 @@ import (
 	"gorm.io/gorm"
 )
 
-//
 type Role struct {
 	Id        int              `gorm:"column:id" json:"id,omitempty"`                         //是否可空:NO
 	Pid       int              `gorm:"column:pid" json:"pid"`                                 //是否可空:NO 上级id
@@ -18,7 +17,7 @@ type Role struct {
 	IsSystem  int              `gorm:"column:is_system;default:;" json:"is_system,omitempty"` //是否可空:YES
 }
 
-//定义树状结构体
+// RoleTree 定义树状结构体
 type RoleTree struct {
 	Role
 	Child []*RoleTree `gorm:"-" json:"children"`
@@ -28,14 +27,14 @@ func (*Role) TableName() string {
 	return "role"
 }
 
-//设置数据体
+// RoleSetFromData 设置数据体
 func (r *Role) RoleSetFromData(params map[string]interface{}) {
 	r.Pid = int(params["pid"].(float64))
 	r.Name = params["name"].(string)
 	r.Rule = params["rule"].(string)
 }
 
-//删除事件
+// BeforeDelete 删除事件
 func (r *Role) BeforeDelete(tx *gorm.DB) (err error) {
 	if r.Id == 1 {
 		return errors.New("系统账号不允许删除")

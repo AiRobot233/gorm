@@ -12,7 +12,7 @@ type Roles struct {
 	Operation string `json:"operation"`
 }
 
-//获取登录人员权限
+// GetRoutes 获取登录人员权限
 func GetRoutes(user map[string]interface{}) (bool, interface{}) {
 	role := model.Role{}
 	res := db.First(&role, user["role_id"]) //查询角色
@@ -36,7 +36,7 @@ func GetRoutes(user map[string]interface{}) (bool, interface{}) {
 	return utils.R(result, data)
 }
 
-//修改自己密码
+// ChangePwd 修改自己密码
 func ChangePwd(params map[string]interface{}, user map[string]interface{}) (bool, interface{}) {
 	oldPassword := params["old_password"].(string)
 	password := params["password"].(string)

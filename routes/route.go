@@ -24,6 +24,10 @@ func Routes() *gin.Engine {
 			controller.Test(c)
 		})
 
+		a.POST("/a", func(c *gin.Context) {
+			controller.A(c)
+		})
+
 		notRule := a.Use(middleware.LoginAuth())
 		//角色下拉
 		notRule.GET("/role/select", func(c *gin.Context) {

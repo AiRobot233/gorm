@@ -6,49 +6,51 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 	"math/rand"
+	"os"
 	"regexp"
 	"strconv"
 	"time"
 )
 
-//string 转 int
+// StrToInt string 转 int
 func StrToInt(str string) int {
 	i, _ := strconv.Atoi(str)
 	return i
 }
 
-//获取当前时间
+// NowTime 获取当前时间
 func NowTime() string {
 	return time.Now().Format("2006-01-02 15:04:05")
 }
 
-//md5加密
+// Md5 md5加密
 func Md5(str string) string {
 	h := md5.New()
 	h.Write([]byte(str))
 	return hex.EncodeToString(h.Sum(nil))
 }
 
-//时间转时间戳
+// TimeToStr 时间转时间戳
 func TimeToStr(date string) int64 {
 	loc, _ := time.LoadLocation("Asia/Shanghai")                     //设置时区
 	tmp, _ := time.ParseInLocation("2006-01-02 15:04:05", date, loc) //2006-01-02 15:04:05是转换的格式如php的"Y-m-d H:i:s"
 	return tmp.Unix()
 }
 
-//时间戳转时间
+// StrToTime 时间戳转时间
 func StrToTime(date int64) string {
 	return time.Unix(date, 0).Format("2006-01-02 15:04:05")
 }
 
-//int64转string
+// Int64ToStr int64转string
 func Int64ToStr(i int64) string {
 	return strconv.FormatInt(i, 10)
 }
 
-//获取盐
+// GetSalt 获取盐
 func GetSalt(str string) string {
 	r := rand.Int()
 	s := strconv.Itoa(r)
@@ -58,7 +60,7 @@ func GetSalt(str string) string {
 	return m5[0:5]
 }
 
-//输出分页
+// P 输出分页
 func P(data interface{}, count int64) map[string]interface{} {
 	p := GetSlice()
 	p["list"] = data
@@ -66,7 +68,7 @@ func P(data interface{}, count int64) map[string]interface{} {
 	return p
 }
 
-//输出错误或正常数据
+// R 输出错误或正常数据
 func R(err *gorm.DB, data interface{}) (bool, interface{}) {
 	if err.Error != nil {
 		return false, err.Error.Error()
@@ -75,7 +77,7 @@ func R(err *gorm.DB, data interface{}) (bool, interface{}) {
 	}
 }
 
-//json转map
+// JSONMethod json转map
 func JSONMethod(content interface{}) []map[string]interface{} {
 	var name []map[string]interface{}
 	if marshalContent, err := json.Marshal(content); err != nil {
@@ -93,22 +95,22 @@ func JSONMethod(content interface{}) []map[string]interface{} {
 	return name
 }
 
-//校验密码长度
+// CheckPasswordLever 校验密码长度
 func CheckPasswordLever(ps string) error {
 	if len(ps) < 8 {
 		return fmt.Errorf("密码长度必须大于9位")
 	}
 	num := `[0-9]{1}`
-	a_z := `[a-z]{1}`
-	A_Z := `[A-Z]{1}`
+	aZ := `[a-z]{1}`
+	AZ := `[A-Z]{1}`
 	symbol := `[!@#~$%^&*()+|_]{1}`
 	if b, err := regexp.MatchString(num, ps); !b || err != nil {
 		return fmt.Errorf("密码需要数字")
 	}
-	if b, err := regexp.MatchString(a_z, ps); !b || err != nil {
+	if b, err := regexp.MatchString(aZ, ps); !b || err != nil {
 		return fmt.Errorf("密码需要小写字母")
 	}
-	if b, err := regexp.MatchString(A_Z, ps); !b || err != nil {
+	if b, err := regexp.MatchString(AZ, ps); !b || err != nil {
 		return fmt.Errorf("密码需要大写字母")
 	}
 	if b, err := regexp.MatchString(symbol, ps); !b || err != nil {
@@ -117,7 +119,7 @@ func CheckPasswordLever(ps string) error {
 	return nil
 }
 
-//判断数据是否在数组中
+// InArray 判断数据是否在数组中
 func InArray(arr []string, str string) bool {
 	for _, v := range arr {
 		if v == str {
@@ -127,9 +129,18 @@ func InArray(arr []string, str string) bool {
 	return false
 }
 
-//返回数组切片数据
+// GetSlice 返回数组切片数据
 func GetSlice() map[string]interface{} {
 	var params map[string]interface{}     //声明变量，不分配内存
 	params = make(map[string]interface{}) //必可不少，分配内存
 	return params
+}
+
+//读取env文件
+func GetEnvData(name string) string {
+	err := godotenv.Load("./.env")
+	if err != nil {
+		fmt.Println("Error loading .env file")
+	}
+	return os.Getenv(name)
 }

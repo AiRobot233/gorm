@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//登录返回token
+// Login 登录返回token
 func Login(c *gin.Context) {
 	params := utils.GetSlice()
 	if err := c.ShouldBindJSON(&params); err == nil {

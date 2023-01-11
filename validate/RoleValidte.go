@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 )
 
-//数据体最好公开可以外部直接调用
+// Role 数据体最好公开可以外部直接调用
 type Role struct {
 	Pid  int    `form:"pid" json:"pid" binding:"required"`
 	Name string `form:"name" json:"name" binding:"required"`

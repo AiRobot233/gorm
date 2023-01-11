@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 )
 
-//数据体最好公开可以外部直接调用
+// Login 数据体最好公开可以外部直接调用
 type Login struct {
 	Name     string `form:"name" json:"name" binding:"required"`
 	Password string `form:"password" json:"password" binding:"required"`

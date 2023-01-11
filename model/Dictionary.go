@@ -5,7 +5,6 @@ import (
 	"gorm.io/gorm"
 )
 
-//
 type Dictionary struct {
 	Id    int    `gorm:"column:id" json:"id"`       //是否可空:NO
 	Pid   int    `gorm:"column:pid" json:"pid"`     //是否可空:NO
@@ -18,13 +17,13 @@ func (*Dictionary) TableName() string {
 	return "dictionary"
 }
 
-//定义树状结构体
+// DictionaryTree 定义树状结构体
 type DictionaryTree struct {
 	Dictionary
 	Child []*DictionaryTree `gorm:"-" json:"children"`
 }
 
-//设置数据
+// DictionarySetFromData 设置数据
 func (r *Dictionary) DictionarySetFromData(params map[string]interface{}) {
 	r.Pid = int(params["pid"].(float64))
 	r.Name = params["name"].(string)
@@ -36,7 +35,7 @@ func (r *Dictionary) DictionarySetFromData(params map[string]interface{}) {
 	}
 }
 
-//删除事件
+// BeforeDelete 删除事件
 func (r *Dictionary) BeforeDelete(tx *gorm.DB) (err error) {
 	dictionary := Dictionary{}
 	result := tx.Model(r).Where("pid = ?", r.Id).First(&dictionary)
@@ -46,7 +45,7 @@ func (r *Dictionary) BeforeDelete(tx *gorm.DB) (err error) {
 	return
 }
 
-//添加事件
+// BeforeCreate 添加事件
 func (r *Dictionary) BeforeCreate(tx *gorm.DB) (err error) {
 	dictionary := Dictionary{}
 	result := tx.Model(r).Where("name = ?", r.Name).First(&dictionary)
@@ -56,7 +55,7 @@ func (r *Dictionary) BeforeCreate(tx *gorm.DB) (err error) {
 	return
 }
 
-//修改事件
+// BeforeUpdate 修改事件
 func (r *Dictionary) BeforeUpdate(tx *gorm.DB) (err error) {
 	dictionary := Dictionary{}
 	result := tx.Model(r).Where("name = ?", r.Name).First(&dictionary)
