@@ -3,6 +3,7 @@ package admin
 import (
 	"gin/model"
 	"gin/utils"
+	"gin/validate"
 )
 
 // RoleList 角色列表
@@ -13,7 +14,7 @@ func RoleList() (bool, interface{}) {
 }
 
 // RoleAdd 角色新增
-func RoleAdd(params map[string]interface{}) (bool, interface{}) {
+func RoleAdd(params validate.Role) (bool, interface{}) {
 	role := model.Role{}
 	role.RoleSetFromData(params)
 	result := db.Create(&role)
@@ -21,7 +22,7 @@ func RoleAdd(params map[string]interface{}) (bool, interface{}) {
 }
 
 // RoleEdit 角色修改
-func RoleEdit(id string, params map[string]interface{}) (bool, interface{}) {
+func RoleEdit(id string, params validate.Role) (bool, interface{}) {
 	role := model.Role{}
 	db.First(&role, id)
 	role.RoleSetFromData(params)

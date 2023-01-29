@@ -11,8 +11,10 @@ import (
 
 // Dictionary 数据体最好公开可以外部直接调用
 type Dictionary struct {
+	Pid   int    `form:"pid" json:"pid"`
 	Name  string `form:"name" json:"name" binding:"required"`
 	Value string `form:"value" json:"value" binding:"required"`
+	Sort  int    `form:"sort" json:"sort"`
 }
 
 func DictionaryValidate(context *gin.Context) bool {

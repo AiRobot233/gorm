@@ -3,6 +3,7 @@ package admin
 import (
 	"gin/services/admin"
 	"gin/utils"
+	"gin/validate"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,7 +14,7 @@ func RuleList(c *gin.Context) {
 
 // RuleAdd 规则添加
 func RuleAdd(c *gin.Context) {
-	params := utils.GetSlice()
+	params := validate.Rule{}
 	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, data := admin.RuleAdd(params)
 		utils.Send(c, bol, data)
@@ -25,7 +26,7 @@ func RuleAdd(c *gin.Context) {
 // RuleEdit 规则修改
 func RuleEdit(c *gin.Context) {
 	id := c.Param("id")
-	params := utils.GetSlice()
+	params := validate.Rule{}
 	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, res := admin.RuleEdit(id, params)
 		utils.Send(c, bol, res)

@@ -3,6 +3,7 @@ package admin
 import (
 	"gin/services/admin"
 	"gin/utils"
+	"gin/validate"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +15,7 @@ func RoleList(c *gin.Context) {
 
 // RoleAdd 角色添加
 func RoleAdd(c *gin.Context) {
-	params := utils.GetSlice()
+	params := validate.Role{}
 	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, data := admin.RoleAdd(params)
 		utils.Send(c, bol, data)
@@ -26,7 +27,7 @@ func RoleAdd(c *gin.Context) {
 // RoleEdit 角色修改
 func RoleEdit(c *gin.Context) {
 	id := c.Param("id")
-	params := utils.GetSlice()
+	params := validate.Role{}
 	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, res := admin.RoleEdit(id, params)
 		utils.Send(c, bol, res)

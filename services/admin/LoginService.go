@@ -3,12 +3,13 @@ package admin
 import (
 	"gin/model"
 	"gin/utils"
+	"gin/validate"
 )
 
 // Login 登录
-func Login(params map[string]interface{}) (bool, interface{}) {
-	name := params["name"].(string)
-	password := params["password"].(string)
+func Login(params validate.Login) (bool, interface{}) {
+	name := params.Name
+	password := params.Password
 	user := model.User{}
 	result := db.Where("(`phone` = ? OR `name` = ?)", name, name).First(&user)
 	if result.RowsAffected > 0 {

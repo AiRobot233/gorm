@@ -3,6 +3,7 @@ package admin
 import (
 	"gin/services/admin"
 	"gin/utils"
+	"gin/validate"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +15,7 @@ func DictionaryList(c *gin.Context) {
 
 // DictionaryAdd 字典添加
 func DictionaryAdd(c *gin.Context) {
-	params := utils.GetSlice()
+	params := validate.Dictionary{}
 	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, data := admin.DictionaryAdd(params)
 		utils.Send(c, bol, data)
@@ -26,7 +27,7 @@ func DictionaryAdd(c *gin.Context) {
 // DictionaryEdit 字典修改
 func DictionaryEdit(c *gin.Context) {
 	id := c.Param("id")
-	params := utils.GetSlice()
+	params := validate.Dictionary{}
 	if err := c.ShouldBindJSON(&params); err == nil {
 		bol, res := admin.DictionaryEdit(id, params)
 		utils.Send(c, bol, res)

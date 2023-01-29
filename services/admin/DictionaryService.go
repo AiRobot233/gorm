@@ -3,6 +3,7 @@ package admin
 import (
 	"gin/model"
 	"gin/utils"
+	"gin/validate"
 )
 
 // DictionaryList 字典列表
@@ -13,7 +14,7 @@ func DictionaryList() (bool, interface{}) {
 }
 
 // DictionaryAdd 字典添加
-func DictionaryAdd(params map[string]interface{}) (bool, interface{}) {
+func DictionaryAdd(params validate.Dictionary) (bool, interface{}) {
 	dictionary := model.Dictionary{}
 	dictionary.DictionarySetFromData(params)
 	result := db.Create(&dictionary)
@@ -21,7 +22,7 @@ func DictionaryAdd(params map[string]interface{}) (bool, interface{}) {
 }
 
 // DictionaryEdit 字典修改
-func DictionaryEdit(id string, params map[string]interface{}) (bool, interface{}) {
+func DictionaryEdit(id string, params validate.Dictionary) (bool, interface{}) {
 	dictionary := model.Dictionary{}
 	db.First(&dictionary, id)
 	dictionary.DictionarySetFromData(params)

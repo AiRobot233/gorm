@@ -3,11 +3,12 @@ package admin
 import (
 	"gin/model"
 	"gin/utils"
+	"gin/validate"
 	"gorm.io/gorm"
 )
 
 // UserList 列表
-func UserList(page string, pageSize string, user map[string]interface{}) (bool, interface{}) {
+func UserList(page string, pageSize string) (bool, interface{}) {
 	var users []model.User //定义表结构
 	var count int64
 	db.Table("user").Count(&count)
@@ -18,24 +19,22 @@ func UserList(page string, pageSize string, user map[string]interface{}) (bool, 
 }
 
 // UserAdd 新增
-func UserAdd(params map[string]interface{}) (bool, interface{}) {
+func UserAdd(params validate.User) (bool, interface{}) {
 	//判断值是否存在
 	var status int
-	if _, ok := params["password"]; !ok {
-		params["password"] = "Aa@112233"
+	if params.Password == "" {
+		params.Password = "Aa@112233"
 	}
-	if _, ok := params["status"]; !ok {
-		status = 1
-	} else {
-		status = int(params["status"].(float64))
+	if params.Status == 0 {
+		params.Status = 1
 	}
-	salt := utils.GetSalt(params["password"].(string))
+	salt := utils.GetSalt(params.Password)
 	user := model.User{
-		Name:     params["name"].(string),
-		Phone:    params["phone"].(string),
+		Name:     params.Name,
+		Phone:    params.Phone,
 		Salt:     salt,
-		Password: utils.Md5(params["password"].(string) + salt),
-		RoleId:   int(params["role_id"].(float64)),
+		Password: utils.Md5(params.Password + salt),
+		RoleId:   params.RoleId,
 		Status:   status,
 	}
 	result := db.Create(&user)
@@ -43,15 +42,15 @@ func UserAdd(params map[string]interface{}) (bool, interface{}) {
 }
 
 // UserEdit 修改
-func UserEdit(id string, params map[string]interface{}) (bool, interface{}) {
+func UserEdit(id string, params validate.User) (bool, interface{}) {
 	user := model.User{}
 	db.First(&user, id)
-	user.Name = params["name"].(string)
-	user.Phone = params["phone"].(string)
-	user.RoleId = int(params["role_id"].(float64))
-	user.Status = int(params["status"].(float64))
-	if params["password"] != nil && params["password"] != "" {
-		bol, res := SetPwd(params["password"].(string), user.Salt)
+	user.Name = params.Name
+	user.Phone = params.Phone
+	user.RoleId = params.RoleId
+	user.Status = params.Status
+	if params.Password != "" {
+		bol, res := SetPwd(params.Password, user.Salt)
 		if bol != true {
 			return false, res
 		}

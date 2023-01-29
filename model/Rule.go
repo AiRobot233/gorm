@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+	"gin/validate"
 	"gorm.io/gorm"
 )
 
@@ -26,18 +27,13 @@ func (*Rule) TableName() string {
 }
 
 // RuleSetFromData 设置数据
-func (r *Rule) RuleSetFromData(params map[string]interface{}) {
-	r.Pid = int(params["pid"].(float64))
-	r.Name = params["name"].(string)
-	r.Type = params["type"].(string)
-	r.Router = params["router"].(string)
-	if params["sort"] != nil {
-		r.Sort = int(params["sort"].(float64))
-	}
-	if params["method"] != nil {
-		method := params["method"].(string)
-		r.Method = &method
-	}
+func (r *Rule) RuleSetFromData(params validate.Rule) {
+	r.Pid = params.Pid
+	r.Name = params.Name
+	r.Type = params.Type
+	r.Router = params.Router
+	r.Sort = params.Sort
+	r.Method = &params.Method
 }
 
 // BeforeDelete 删除事件

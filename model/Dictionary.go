@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+	"gin/validate"
 	"gorm.io/gorm"
 )
 
@@ -24,15 +25,11 @@ type DictionaryTree struct {
 }
 
 // DictionarySetFromData 设置数据
-func (r *Dictionary) DictionarySetFromData(params map[string]interface{}) {
-	r.Pid = int(params["pid"].(float64))
-	r.Name = params["name"].(string)
-	r.Value = params["value"].(string)
-	if params["sort"] != nil {
-		r.Sort = int(params["sort"].(float64))
-	} else {
-		r.Sort = 0
-	}
+func (r *Dictionary) DictionarySetFromData(params validate.Dictionary) {
+	r.Pid = params.Pid
+	r.Name = params.Name
+	r.Value = params.Value
+	r.Sort = params.Sort
 }
 
 // BeforeDelete 删除事件

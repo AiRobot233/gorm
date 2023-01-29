@@ -15,6 +15,8 @@ type Rule struct {
 	Name   string `form:"name" json:"name" binding:"required"`
 	Type   string `form:"type" json:"type" binding:"required"`
 	Router string `form:"router" json:"router" binding:"required"`
+	Method string `form:"method" json:"method"`
+	Sort   int    `form:"sort" json:"sort"`
 }
 
 func RuleValidate(context *gin.Context) bool {

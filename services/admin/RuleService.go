@@ -3,6 +3,7 @@ package admin
 import (
 	"gin/model"
 	"gin/utils"
+	"gin/validate"
 )
 
 // RuleList 规则列表 树状
@@ -13,7 +14,7 @@ func RuleList() (bool, interface{}) {
 }
 
 // RuleAdd 规则添加
-func RuleAdd(params map[string]interface{}) (bool, interface{}) {
+func RuleAdd(params validate.Rule) (bool, interface{}) {
 	rule := model.Rule{}
 	rule.RuleSetFromData(params)
 	result := db.Create(&rule)
@@ -21,7 +22,7 @@ func RuleAdd(params map[string]interface{}) (bool, interface{}) {
 }
 
 // RuleEdit 规则修改
-func RuleEdit(id string, params map[string]interface{}) (bool, interface{}) {
+func RuleEdit(id string, params validate.Rule) (bool, interface{}) {
 	rule := model.Rule{}
 	db.First(&rule, id)
 	rule.RuleSetFromData(params)

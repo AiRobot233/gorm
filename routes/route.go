@@ -4,6 +4,7 @@ import (
 	"gin/controller"
 	"gin/controller/admin"
 	"gin/middleware"
+	"gin/model"
 	"gin/validate"
 	"github.com/gin-gonic/gin"
 )
@@ -13,6 +14,10 @@ func Routes() *gin.Engine {
 	router.Static("/storage", "./storage") //文件访问配置地址
 	a := router.Group("/admin")
 	{
+		a.POST("/build", func(c *gin.Context) {
+			model.Build(c)
+		})
+
 		a.POST("/login", func(c *gin.Context) {
 			bol := validate.LoginValidate(c)
 			if bol {

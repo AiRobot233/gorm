@@ -3,6 +3,7 @@ package model
 import (
 	"errors"
 	"gin/utils"
+	"gin/validate"
 	"gorm.io/gorm"
 )
 
@@ -28,10 +29,10 @@ func (*Role) TableName() string {
 }
 
 // RoleSetFromData 设置数据体
-func (r *Role) RoleSetFromData(params map[string]interface{}) {
-	r.Pid = int(params["pid"].(float64))
-	r.Name = params["name"].(string)
-	r.Rule = params["rule"].(string)
+func (r *Role) RoleSetFromData(params validate.Role) {
+	r.Pid = params.Pid
+	r.Name = params.Name
+	r.Rule = params.Rule
 }
 
 // BeforeDelete 删除事件

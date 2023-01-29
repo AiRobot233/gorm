@@ -11,9 +11,11 @@ import (
 
 // User 数据体最好公开可以外部直接调用
 type User struct {
-	Name   string `form:"name" json:"name" binding:"required"`
-	Phone  string `form:"phone" json:"phone" binding:"required,len=11"`
-	RoleId int    `form:"role_id" json:"role_id" binding:"required"`
+	Name     string `form:"name" json:"name" binding:"required"`
+	Phone    string `form:"phone" json:"phone" binding:"required,len=11"`
+	RoleId   int    `form:"role_id" json:"role_id" binding:"required"`
+	Status   int    `form:"status" json:"status"`
+	Password string `form:"password" json:"password"`
 }
 
 func UserValidate(context *gin.Context) bool {
