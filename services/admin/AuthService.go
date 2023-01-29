@@ -47,7 +47,7 @@ func ChangePwd(params map[string]interface{}, user map[string]interface{}) (bool
 	}
 	if utils.Md5(oldPassword+u.Salt) == u.Password {
 		//旧密码正确
-		bol, data := SetPwd(password, u.Salt)
+		bol, data := utils.SetPwd(password, u.Salt)
 		if bol != true {
 			return false, data
 		}

@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"gin/model"
 	"gin/services/admin"
 	"gin/utils"
 	"gin/validate"
@@ -11,8 +12,13 @@ import (
 func UserList(c *gin.Context) {
 	page := c.DefaultQuery("page", "1")
 	pageSize := c.DefaultQuery("pageSize", "10")
-	bol, res := admin.UserList(page, pageSize)
-	utils.Send(c, bol, res)
+	var params model.UserSearch
+	if err := c.ShouldBind(&params); err == nil {
+		bol, res := admin.UserList(page, pageSize, params)
+		utils.Send(c, bol, res)
+	} else {
+		utils.Error(c, err.Error())
+	}
 }
 
 // UserAdd 新增

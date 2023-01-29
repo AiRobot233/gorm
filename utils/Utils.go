@@ -136,11 +136,20 @@ func GetSlice() map[string]interface{} {
 	return params
 }
 
-//读取env文件
+// GetEnvData 读取env文件
 func GetEnvData(name string) string {
 	err := godotenv.Load("./.env")
 	if err != nil {
 		fmt.Println("Error loading .env file")
 	}
 	return os.Getenv(name)
+}
+
+// SetPwd 修改密码操作
+func SetPwd(password string, salt string) (bool, string) {
+	err := CheckPasswordLever(password) //校验密码安全性
+	if err != nil {
+		return false, err.Error()
+	}
+	return true, Md5(password + salt)
 }

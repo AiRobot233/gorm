@@ -32,3 +32,21 @@ func (u *User) BeforeSave(tx *gorm.DB) (err error) {
 	}
 	return
 }
+
+// UserSearch 搜索
+type UserSearch struct {
+	Keyword string `form:"keyword"`
+	RoleId  int    `form:"role_id"`
+}
+
+func UserSearchFunc(params UserSearch) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		if params.Keyword != "" {
+			db.Where("(`phone` LIKE ? OR `name` LIKE ?)", "%"+params.Keyword+"%", "%"+params.Keyword+"%")
+		}
+		if params.RoleId > 0 {
+			db.Where("role_id = ?", params.RoleId)
+		}
+		return db
+	}
+}
