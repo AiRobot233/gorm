@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
-	"io/ioutil"
+	"io"
 )
 
 // Login 数据体最好公开可以外部直接调用
@@ -20,9 +20,9 @@ func LoginValidate(context *gin.Context) bool {
 		utils.Error(context, err.Error())
 		return false
 	}
-	data, _ := ioutil.ReadAll(context.Request.Body)
+	data, _ := io.ReadAll(context.Request.Body)
 	// 再重新写回请求体body中
-	context.Request.Body = ioutil.NopCloser(bytes.NewBuffer(data))
+	context.Request.Body = io.NopCloser(bytes.NewBuffer(data))
 	var l Login
 	err := context.ShouldBindWith(&l, binding.JSON)
 	if err != nil {
@@ -34,6 +34,6 @@ func LoginValidate(context *gin.Context) bool {
 		return false
 	}
 	// 再重新写回请求体body中
-	context.Request.Body = ioutil.NopCloser(bytes.NewBuffer(data))
+	context.Request.Body = io.NopCloser(bytes.NewBuffer(data))
 	return true
 }

@@ -8,7 +8,7 @@ import (
 	"gin/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -26,7 +26,7 @@ func BaseAuth() gin.HandlerFunc {
 	}
 }
 
-//解密post json参数
+// 解密post json参数
 func decryptPostJsonParams(c *gin.Context) {
 	j, err := getPostJsonParams(c)
 	if err != nil {
@@ -46,12 +46,12 @@ func decryptPostJsonParams(c *gin.Context) {
 				}
 			}
 			marshal, _ := json.Marshal(j) //转换为[]byte
-			c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(marshal))
+			c.Request.Body = io.NopCloser(bytes.NewBuffer(marshal))
 		}
 	}
 }
 
-//解密post form参数
+// 解密post form参数
 func decryptPostFormParams(c *gin.Context) {
 	post, err := getPostFormParams(c)
 	if err != nil {
@@ -74,7 +74,7 @@ func decryptPostFormParams(c *gin.Context) {
 	}
 }
 
-//获取get参数
+// 获取get参数
 func getQueryParams(c *gin.Context) map[string]any {
 	query := c.Request.URL.Query()
 	var queryMap = make(map[string]any, len(query))
@@ -84,7 +84,7 @@ func getQueryParams(c *gin.Context) map[string]any {
 	return queryMap
 }
 
-//获取post form参数
+// 获取post form参数
 func getPostFormParams(c *gin.Context) (map[string]any, error) {
 	if err := c.Request.ParseMultipartForm(32 << 20); err != nil {
 		if !errors.Is(err, http.ErrNotMultipart) {
@@ -102,7 +102,7 @@ func getPostFormParams(c *gin.Context) (map[string]any, error) {
 	return postMap, nil
 }
 
-//获取post json参数
+// 获取post json参数
 func getPostJsonParams(c *gin.Context) (map[string]any, error) {
 	params := utils.GetSlice()
 	if err := c.ShouldBindBodyWith(&params, binding.JSON); err == nil {

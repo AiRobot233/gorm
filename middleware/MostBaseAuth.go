@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"gin/utils"
 	"github.com/gin-gonic/gin"
-	"io/ioutil"
+	"io"
 )
 
 func MostBaseAuth() gin.HandlerFunc {
@@ -12,7 +12,7 @@ func MostBaseAuth() gin.HandlerFunc {
 		params := utils.GetSlice()
 		if err := c.ShouldBind(&params); err == nil {
 			d, _ := coder.DecodeString(params["encrypt"].(string))
-			c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(d))
+			c.Request.Body = io.NopCloser(bytes.NewBuffer(d))
 		} else {
 			utils.Error(c, err.Error())
 			c.Abort()
