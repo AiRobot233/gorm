@@ -24,7 +24,7 @@ func (t LocalTime) Value() (driver.Value, error) {
 	return t.Time, nil
 }
 
-func (t *LocalTime) Scan(v interface{}) error {
+func (t *LocalTime) Scan(v any) error {
 	value, ok := v.(time.Time)
 	if ok {
 		*t = LocalTime{Time: value}

@@ -29,7 +29,7 @@ func RuleAuth() gin.HandlerFunc {
 		user, err := c.Get("user")
 		if err {
 			var u *model.User
-			data := user.(map[string]interface{})
+			data := user.(map[string]any)
 			db.First(&u, data["id"])
 			if u.Id <= 0 {
 				utils.Error(c, "用户已被删除", 401)

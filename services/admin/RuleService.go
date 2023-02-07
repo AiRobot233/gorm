@@ -7,14 +7,14 @@ import (
 )
 
 // RuleList 规则列表 树状
-func RuleList() (bool, interface{}) {
+func RuleList() (bool, any) {
 	var rule []*model.RuleTree
 	result := db.Find(&rule)
 	return utils.R(result, RuleTree(rule, 0))
 }
 
 // RuleAdd 规则添加
-func RuleAdd(params validate.Rule) (bool, interface{}) {
+func RuleAdd(params validate.Rule) (bool, any) {
 	rule := model.Rule{}
 	rule.RuleSetFromData(params)
 	result := db.Create(&rule)
@@ -22,7 +22,7 @@ func RuleAdd(params validate.Rule) (bool, interface{}) {
 }
 
 // RuleEdit 规则修改
-func RuleEdit(id string, params validate.Rule) (bool, interface{}) {
+func RuleEdit(id string, params validate.Rule) (bool, any) {
 	rule := model.Rule{}
 	db.First(&rule, id)
 	rule.RuleSetFromData(params)
@@ -31,7 +31,7 @@ func RuleEdit(id string, params validate.Rule) (bool, interface{}) {
 }
 
 // RuleDel 规则删除
-func RuleDel(id string) (bool, interface{}) {
+func RuleDel(id string) (bool, any) {
 	rule := model.Rule{}
 	res := db.Where("id = ?", id).First(&rule)
 	if res.RowsAffected == 0 {
@@ -41,7 +41,7 @@ func RuleDel(id string) (bool, interface{}) {
 	return utils.R(result, nil)
 }
 
-func RuleSelect(types string) (bool, interface{}) {
+func RuleSelect(types string) (bool, any) {
 	var rule []*model.RuleTree
 	var where model.Rule
 	if types != "" {

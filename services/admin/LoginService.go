@@ -7,7 +7,7 @@ import (
 )
 
 // Login 登录
-func Login(params validate.Login) (bool, interface{}) {
+func Login(params validate.Login) (bool, any) {
 	name := params.Name
 	password := params.Password
 	user := model.User{}

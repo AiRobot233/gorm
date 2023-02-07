@@ -7,14 +7,14 @@ import (
 )
 
 // DictionaryList 字典列表
-func DictionaryList() (bool, interface{}) {
+func DictionaryList() (bool, any) {
 	var dictionary []*model.DictionaryTree
 	result := db.Find(&dictionary)
 	return utils.R(result, DictionaryTree(dictionary, 0))
 }
 
 // DictionaryAdd 字典添加
-func DictionaryAdd(params validate.Dictionary) (bool, interface{}) {
+func DictionaryAdd(params validate.Dictionary) (bool, any) {
 	dictionary := model.Dictionary{}
 	dictionary.DictionarySetFromData(params)
 	result := db.Create(&dictionary)
@@ -22,7 +22,7 @@ func DictionaryAdd(params validate.Dictionary) (bool, interface{}) {
 }
 
 // DictionaryEdit 字典修改
-func DictionaryEdit(id string, params validate.Dictionary) (bool, interface{}) {
+func DictionaryEdit(id string, params validate.Dictionary) (bool, any) {
 	dictionary := model.Dictionary{}
 	db.First(&dictionary, id)
 	dictionary.DictionarySetFromData(params)
@@ -31,7 +31,7 @@ func DictionaryEdit(id string, params validate.Dictionary) (bool, interface{}) {
 }
 
 // DictionaryDel 字典删除
-func DictionaryDel(id string) (bool, interface{}) {
+func DictionaryDel(id string) (bool, any) {
 	dictionary := model.Dictionary{}
 	res := db.Where("id = ?", id).First(&dictionary)
 	if res.RowsAffected == 0 {
@@ -42,7 +42,7 @@ func DictionaryDel(id string) (bool, interface{}) {
 }
 
 // UnitDictionary 获取字典数据（不鉴权）
-func UnitDictionary(name string) (bool, interface{}) {
+func UnitDictionary(name string) (bool, any) {
 	dictionary := model.Dictionary{}
 	result := db.Where("name = ?", name).First(&dictionary)
 	if result.RowsAffected == 0 {
@@ -54,7 +54,7 @@ func UnitDictionary(name string) (bool, interface{}) {
 }
 
 // DictionarySelect 字典下拉
-func DictionarySelect() (bool, interface{}) {
+func DictionarySelect() (bool, any) {
 	var dictionary []*model.DictionaryTree
 	result := db.Find(&dictionary)
 	return utils.R(result, DictionaryTree(dictionary, 0))

@@ -75,9 +75,9 @@ func decryptPostFormParams(c *gin.Context) {
 }
 
 //获取get参数
-func getQueryParams(c *gin.Context) map[string]interface{} {
+func getQueryParams(c *gin.Context) map[string]any {
 	query := c.Request.URL.Query()
-	var queryMap = make(map[string]interface{}, len(query))
+	var queryMap = make(map[string]any, len(query))
 	for k := range query {
 		queryMap[k] = c.Query(k)
 	}
@@ -85,7 +85,7 @@ func getQueryParams(c *gin.Context) map[string]interface{} {
 }
 
 //获取post form参数
-func getPostFormParams(c *gin.Context) (map[string]interface{}, error) {
+func getPostFormParams(c *gin.Context) (map[string]any, error) {
 	if err := c.Request.ParseMultipartForm(32 << 20); err != nil {
 		if !errors.Is(err, http.ErrNotMultipart) {
 			return nil, err
@@ -103,7 +103,7 @@ func getPostFormParams(c *gin.Context) (map[string]interface{}, error) {
 }
 
 //获取post json参数
-func getPostJsonParams(c *gin.Context) (map[string]interface{}, error) {
+func getPostJsonParams(c *gin.Context) (map[string]any, error) {
 	params := utils.GetSlice()
 	if err := c.ShouldBindBodyWith(&params, binding.JSON); err == nil {
 		return params, nil

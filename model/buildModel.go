@@ -16,7 +16,7 @@ func Build(c *gin.Context) {
 	}
 }
 
-func info(params map[string]interface{}) {
+func info(params map[string]any) {
 	name := params["table_name"].(string)
 	path := params["path"].(string)
 	//简单用法

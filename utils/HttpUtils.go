@@ -8,7 +8,7 @@ import (
 var successMsg = "success" //成功默认值
 var errorCode = 200        //失败code码
 
-func Success(context *gin.Context, data interface{}, msg ...string) {
+func Success(context *gin.Context, data any, msg ...string) {
 	if len(msg) > 0 {
 		successMsg = msg[0]
 	}
@@ -20,7 +20,7 @@ func Success(context *gin.Context, data interface{}, msg ...string) {
 	})
 }
 
-func Error(context *gin.Context, msg interface{}, code ...int) {
+func Error(context *gin.Context, msg any, code ...int) {
 	if len(code) > 0 {
 		errorCode = code[0]
 	}
@@ -43,7 +43,7 @@ func ValidateError(context *gin.Context, msg map[string]string) {
 }
 
 // Send 封装输出数据
-func Send(c *gin.Context, bol bool, data interface{}) {
+func Send(c *gin.Context, bol bool, data any) {
 	if bol {
 		Success(c, data)
 	} else {

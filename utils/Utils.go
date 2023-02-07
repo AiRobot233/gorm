@@ -61,7 +61,7 @@ func GetSalt(str string) string {
 }
 
 // P 输出分页
-func P(data interface{}, count int64) map[string]interface{} {
+func P(data any, count int64) map[string]any {
 	p := GetSlice()
 	p["list"] = data
 	p["total"] = count
@@ -69,7 +69,7 @@ func P(data interface{}, count int64) map[string]interface{} {
 }
 
 // R 输出错误或正常数据
-func R(err *gorm.DB, data interface{}) (bool, interface{}) {
+func R(err *gorm.DB, data any) (bool, any) {
 	if err.Error != nil {
 		return false, err.Error.Error()
 	} else {
@@ -78,8 +78,8 @@ func R(err *gorm.DB, data interface{}) (bool, interface{}) {
 }
 
 // JSONMethod json转map
-func JSONMethod(content interface{}) []map[string]interface{} {
-	var name []map[string]interface{}
+func JSONMethod(content any) []map[string]any {
+	var name []map[string]any
 	if marshalContent, err := json.Marshal(content); err != nil {
 		fmt.Println(err)
 	} else {
@@ -130,9 +130,9 @@ func InArray(arr []string, str string) bool {
 }
 
 // GetSlice 返回数组切片数据
-func GetSlice() map[string]interface{} {
-	var params map[string]interface{}     //声明变量，不分配内存
-	params = make(map[string]interface{}) //必可不少，分配内存
+func GetSlice() map[string]any {
+	var params map[string]any     //声明变量，不分配内存
+	params = make(map[string]any) //必可不少，分配内存
 	return params
 }
 

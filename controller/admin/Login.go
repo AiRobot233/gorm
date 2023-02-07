@@ -16,5 +16,4 @@ func Login(c *gin.Context) {
 	} else {
 		utils.Error(c, err.Error())
 	}
-
 }

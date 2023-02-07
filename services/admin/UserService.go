@@ -8,7 +8,7 @@ import (
 )
 
 // UserList 列表
-func UserList(page string, pageSize string, params model.UserSearch) (bool, interface{}) {
+func UserList(page string, pageSize string, params model.UserSearch) (bool, any) {
 	var users []model.User //定义表结构
 	var count int64
 	db.Table("user").Scopes(model.UserSearchFunc(params)).Count(&count)
@@ -19,7 +19,7 @@ func UserList(page string, pageSize string, params model.UserSearch) (bool, inte
 }
 
 // UserAdd 新增
-func UserAdd(params validate.User) (bool, interface{}) {
+func UserAdd(params validate.User) (bool, any) {
 	//判断值是否存在
 	var status int
 	if params.Password == "" {
@@ -42,7 +42,7 @@ func UserAdd(params validate.User) (bool, interface{}) {
 }
 
 // UserEdit 修改
-func UserEdit(id string, params validate.User) (bool, interface{}) {
+func UserEdit(id string, params validate.User) (bool, any) {
 	user := model.User{}
 	db.First(&user, id)
 	user.Name = params.Name
@@ -61,7 +61,7 @@ func UserEdit(id string, params validate.User) (bool, interface{}) {
 }
 
 // UserDel 删除
-func UserDel(id string) (bool, interface{}) {
+func UserDel(id string) (bool, any) {
 	user := model.User{}
 	result := db.Delete(&user, id)
 	return utils.R(result, nil)

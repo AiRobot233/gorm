@@ -7,14 +7,14 @@ import (
 )
 
 // RoleList 角色列表
-func RoleList() (bool, interface{}) {
+func RoleList() (bool, any) {
 	var role []*model.RoleTree
 	result := db.Find(&role)
 	return utils.R(result, RoleTree(role, 0))
 }
 
 // RoleAdd 角色新增
-func RoleAdd(params validate.Role) (bool, interface{}) {
+func RoleAdd(params validate.Role) (bool, any) {
 	role := model.Role{}
 	role.RoleSetFromData(params)
 	result := db.Create(&role)
@@ -22,7 +22,7 @@ func RoleAdd(params validate.Role) (bool, interface{}) {
 }
 
 // RoleEdit 角色修改
-func RoleEdit(id string, params validate.Role) (bool, interface{}) {
+func RoleEdit(id string, params validate.Role) (bool, any) {
 	role := model.Role{}
 	db.First(&role, id)
 	role.RoleSetFromData(params)
@@ -31,7 +31,7 @@ func RoleEdit(id string, params validate.Role) (bool, interface{}) {
 }
 
 // RoleDel 角色删除
-func RoleDel(id string) (bool, interface{}) {
+func RoleDel(id string) (bool, any) {
 	role := model.Role{}
 	res := db.Where("id = ?", id).First(&role)
 	if res.RowsAffected == 0 {
@@ -42,7 +42,7 @@ func RoleDel(id string) (bool, interface{}) {
 }
 
 // RoleSelect 下拉
-func RoleSelect() (bool, interface{}) {
+func RoleSelect() (bool, any) {
 	var role []*model.RoleTree
 	result := db.Find(&role)
 	return utils.R(result, RoleTree(role, 0))

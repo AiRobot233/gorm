@@ -13,7 +13,7 @@ type Roles struct {
 }
 
 // GetRoutes 获取登录人员权限
-func GetRoutes(user map[string]interface{}) (bool, interface{}) {
+func GetRoutes(user map[string]any) (bool, any) {
 	role := model.Role{}
 	res := db.First(&role, user["role_id"]) //查询角色
 	if res.RowsAffected == 0 {
@@ -37,7 +37,7 @@ func GetRoutes(user map[string]interface{}) (bool, interface{}) {
 }
 
 // ChangePwd 修改自己密码
-func ChangePwd(params map[string]interface{}, user map[string]interface{}) (bool, interface{}) {
+func ChangePwd(params map[string]any, user map[string]any) (bool, any) {
 	oldPassword := params["old_password"].(string)
 	password := params["password"].(string)
 	u := model.User{}
