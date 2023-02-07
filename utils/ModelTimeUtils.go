@@ -12,7 +12,7 @@ type LocalTime struct {
 
 // MarshalJSON 重组时间格式
 func (t LocalTime) MarshalJSON() ([]byte, error) {
-	formatted := fmt.Sprintf("\"%v\"", t.Format("2006-01-02 15:04:05"))
+	formatted := fmt.Sprintf("\"%v\"", t.Format(time.DateTime))
 	return []byte(formatted), nil
 }
 

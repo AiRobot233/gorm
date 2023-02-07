@@ -23,7 +23,7 @@ func StrToInt(str string) int {
 
 // NowTime 获取当前时间
 func NowTime() string {
-	return time.Now().Format("2006-01-02 15:04:05")
+	return time.Now().Format(time.DateTime)
 }
 
 // Md5 md5加密
@@ -35,14 +35,14 @@ func Md5(str string) string {
 
 // TimeToStr 时间转时间戳
 func TimeToStr(date string) int64 {
-	loc, _ := time.LoadLocation("Asia/Shanghai")                     //设置时区
-	tmp, _ := time.ParseInLocation("2006-01-02 15:04:05", date, loc) //2006-01-02 15:04:05是转换的格式如php的"Y-m-d H:i:s"
+	loc, _ := time.LoadLocation("Asia/Shanghai") //设置时区
+	tmp, _ := time.ParseInLocation(time.DateTime, date, loc)
 	return tmp.Unix()
 }
 
 // StrToTime 时间戳转时间
 func StrToTime(date int64) string {
-	return time.Unix(date, 0).Format("2006-01-02 15:04:05")
+	return time.Unix(date, 0).Format(time.DateTime)
 }
 
 // Int64ToStr int64转string
