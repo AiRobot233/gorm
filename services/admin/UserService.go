@@ -44,7 +44,10 @@ func UserAdd(params validate.User) (bool, any) {
 // UserEdit 修改
 func UserEdit(id string, params validate.User) (bool, any) {
 	user := model.User{}
-	db.First(&user, id)
+	res := db.First(&user, id)
+	if res.Error != nil {
+		return false, res.Error.Error()
+	}
 	user.Name = params.Name
 	user.Phone = params.Phone
 	user.RoleId = params.RoleId
@@ -63,6 +66,10 @@ func UserEdit(id string, params validate.User) (bool, any) {
 // UserDel 删除
 func UserDel(id string) (bool, any) {
 	user := model.User{}
-	result := db.Delete(&user, id)
+	res := db.First(&user, id)
+	if res.Error != nil {
+		return false, res.Error.Error()
+	}
+	result := db.Delete(&user)
 	return utils.R(result, nil)
 }

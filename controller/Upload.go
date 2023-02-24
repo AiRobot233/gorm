@@ -27,9 +27,9 @@ func Upload(context *gin.Context) {
 	}
 }
 
-//创建文件夹
+// 创建文件夹
 func build() string {
-	day := time.Now().Format("2006-01-02")
+	day := time.Now().Format(time.DateOnly)
 	filePath := "./storage/" + day
 	//判断文件夹是否存在
 	_, err := os.Stat(filePath)

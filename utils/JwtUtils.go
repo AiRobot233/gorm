@@ -29,7 +29,7 @@ func GetJwt(data any, hour ...int) (bool, any) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &ms)
 	signedString, err := token.SignedString(myKey)
 	if err != nil {
-		return false, err
+		return false, err.Error()
 	}
 	res := GetSlice()
 	res["token"] = signedString

@@ -24,7 +24,10 @@ func DictionaryAdd(params validate.Dictionary) (bool, any) {
 // DictionaryEdit 字典修改
 func DictionaryEdit(id string, params validate.Dictionary) (bool, any) {
 	dictionary := model.Dictionary{}
-	db.First(&dictionary, id)
+	res := db.First(&dictionary, id)
+	if res.Error != nil {
+		return false, res.Error.Error()
+	}
 	dictionary.DictionarySetFromData(params)
 	result := db.Save(&dictionary)
 	return utils.R(result, nil)
@@ -33,9 +36,9 @@ func DictionaryEdit(id string, params validate.Dictionary) (bool, any) {
 // DictionaryDel 字典删除
 func DictionaryDel(id string) (bool, any) {
 	dictionary := model.Dictionary{}
-	res := db.Where("id = ?", id).First(&dictionary)
-	if res.RowsAffected == 0 {
-		return false, "数据不存在"
+	res := db.First(&dictionary, id)
+	if res.Error != nil {
+		return false, res.Error.Error()
 	}
 	result := db.Delete(&dictionary)
 	return utils.R(result, nil)

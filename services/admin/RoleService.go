@@ -24,7 +24,10 @@ func RoleAdd(params validate.Role) (bool, any) {
 // RoleEdit 角色修改
 func RoleEdit(id string, params validate.Role) (bool, any) {
 	role := model.Role{}
-	db.First(&role, id)
+	res := db.First(&role, id)
+	if res.Error != nil {
+		return false, res.Error.Error()
+	}
 	role.RoleSetFromData(params)
 	result := db.Save(&role)
 	return utils.R(result, nil)
@@ -33,9 +36,9 @@ func RoleEdit(id string, params validate.Role) (bool, any) {
 // RoleDel 角色删除
 func RoleDel(id string) (bool, any) {
 	role := model.Role{}
-	res := db.Where("id = ?", id).First(&role)
-	if res.RowsAffected == 0 {
-		return false, "数据不存在"
+	res := db.First(&role, id)
+	if res.Error != nil {
+		return false, res.Error.Error()
 	}
 	result := db.Delete(&role)
 	return utils.R(result, nil)

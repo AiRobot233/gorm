@@ -24,7 +24,10 @@ func RuleAdd(params validate.Rule) (bool, any) {
 // RuleEdit 规则修改
 func RuleEdit(id string, params validate.Rule) (bool, any) {
 	rule := model.Rule{}
-	db.First(&rule, id)
+	res := db.First(&rule, id)
+	if res.Error != nil {
+		return false, res.Error.Error()
+	}
 	rule.RuleSetFromData(params)
 	result := db.Save(&rule)
 	return utils.R(result, nil)
@@ -33,9 +36,9 @@ func RuleEdit(id string, params validate.Rule) (bool, any) {
 // RuleDel 规则删除
 func RuleDel(id string) (bool, any) {
 	rule := model.Rule{}
-	res := db.Where("id = ?", id).First(&rule)
-	if res.RowsAffected == 0 {
-		return false, "数据不存在"
+	res := db.First(&rule, id)
+	if res.Error != nil {
+		return false, res.Error.Error()
 	}
 	result := db.Delete(&rule)
 	return utils.R(result, nil)
