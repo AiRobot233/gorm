@@ -48,8 +48,8 @@ func DictionaryDel(id string) (bool, any) {
 func UnitDictionary(name string) (bool, any) {
 	dictionary := model.Dictionary{}
 	result := db.Where("name = ?", name).First(&dictionary)
-	if result.RowsAffected == 0 {
-		return false, "数据不存在"
+	if result.Error != nil {
+		return false, result.Error.Error()
 	}
 	var tree []*model.DictionaryTree
 	res := db.Where("pid = ?", dictionary.Id).Find(&tree)

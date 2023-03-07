@@ -14,10 +14,7 @@ func Routes() *gin.Engine {
 	router.Static("/storage", "./storage") //文件访问配置地址
 	a := router.Group("/admin")
 	{
-		a.POST("/build", func(c *gin.Context) {
-			model.Build(c)
-		})
-
+		//登录
 		a.POST("/login", func(c *gin.Context) {
 			bol := validate.LoginValidate(c)
 			if bol {
@@ -34,6 +31,10 @@ func Routes() *gin.Engine {
 		})
 
 		notRule := a.Use(middleware.LoginAuth())
+		//创建model文件
+		notRule.POST("/build", func(c *gin.Context) {
+			model.Build(c)
+		})
 		//角色下拉
 		notRule.GET("/role/select", func(c *gin.Context) {
 			admin.RoleSelect(c)

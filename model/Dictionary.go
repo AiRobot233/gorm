@@ -47,7 +47,7 @@ func (r *Dictionary) BeforeCreate(tx *gorm.DB) (err error) {
 	dictionary := Dictionary{}
 	result := tx.Model(r).Where("name = ?", r.Name).First(&dictionary)
 	if result.RowsAffected > 0 {
-		return errors.New("添加时名称不能相同")
+		return errors.New("名称已存在无法添加")
 	}
 	return
 }
@@ -55,9 +55,9 @@ func (r *Dictionary) BeforeCreate(tx *gorm.DB) (err error) {
 // BeforeUpdate 修改事件
 func (r *Dictionary) BeforeUpdate(tx *gorm.DB) (err error) {
 	dictionary := Dictionary{}
-	result := tx.Model(r).Where("name = ?", r.Name).First(&dictionary)
+	result := tx.Model(r).Where("name = ? AND id <> ?", r.Name, r.Id).First(&dictionary)
 	if result.RowsAffected > 0 {
-		return errors.New("修改时名称不能相同")
+		return errors.New("名称已存在无法添加")
 	}
 	return
 }
