@@ -25,10 +25,10 @@ func GetRoutes(user map[string]any) (bool, any) {
 	var roles []Roles
 	if role.IsSystem == 2 {
 		result = db.Where("type = ?", "page").Order("sort desc").Find(&rules) //查询所有规则
-		db.Raw("SELECT b.router,a.operation FROM rule AS b LEFT JOIN (SELECT pid,GROUP_CONCAT(method SEPARATOR ',') AS operation FROM `rule` WHERE type = 'api' GROUP BY pid) AS a ON a.pid = b.id WHERE a.operation IS NOT NULL").Find(&roles)
+		db.Raw("SELECT b.router,a.operation FROM rule AS b LEFT JOIN (SELECT pid,GROUP_CONCAT(tag) AS operation FROM `rule` WHERE type = 'api' GROUP BY pid) AS a ON a.pid = b.id WHERE a.operation IS NOT NULL").Find(&roles)
 	} else {
 		result = db.Where("id IN ? AND type = ?", strings.Split(role.Rule, `,`), "page").Order("sort desc").Find(&rules) //查询规则
-		db.Raw("SELECT b.router,a.operation FROM rule AS b LEFT JOIN (SELECT pid,GROUP_CONCAT(method SEPARATOR ',') AS operation FROM `rule` WHERE type = 'api' AND id IN ? GROUP BY pid) AS a ON a.pid = b.id WHERE a.operation IS NOT NULL", strings.Split(role.Rule, `,`)).Find(&roles)
+		db.Raw("SELECT b.router,a.operation FROM rule AS b LEFT JOIN (SELECT pid,GROUP_CONCAT(tag) AS operation FROM `rule` WHERE type = 'api' AND id IN ? GROUP BY pid) AS a ON a.pid = b.id WHERE a.operation IS NOT NULL", strings.Split(role.Rule, `,`)).Find(&roles)
 	}
 	data := utils.GetSlice()
 	data["routes"] = RuleTree(rules, 0)

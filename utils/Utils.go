@@ -129,7 +129,7 @@ func InArray(arr []string, str string) bool {
 	return false
 }
 
-// GetSlice 返回数组切片数据
+// GetSlice 返回map切片数据
 func GetSlice() map[string]any {
 	var params map[string]any     //声明变量，不分配内存
 	params = make(map[string]any) //必可不少，分配内存
