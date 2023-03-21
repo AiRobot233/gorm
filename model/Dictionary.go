@@ -21,7 +21,7 @@ func (*Dictionary) TableName() string {
 // DictionaryTree 定义树状结构体
 type DictionaryTree struct {
 	Dictionary
-	Child []*DictionaryTree `gorm:"-" json:"children"`
+	Child []*DictionaryTree `json:"children"`
 }
 
 // DictionarySetFromData 设置数据

@@ -21,7 +21,7 @@ type Role struct {
 // RoleTree 定义树状结构体
 type RoleTree struct {
 	Role
-	Child []*RoleTree `gorm:"-" json:"children"`
+	Child []*RoleTree `json:"children"`
 }
 
 func (*Role) TableName() string {
