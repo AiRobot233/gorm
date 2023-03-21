@@ -20,7 +20,7 @@ type Rule struct {
 // RuleTree 定义树状结构体
 type RuleTree struct {
 	Rule
-	Child []*RuleTree `json:"children"`
+	Child []*RuleTree `gorm:"-" json:"children"`
 }
 
 func (*Rule) TableName() string {
