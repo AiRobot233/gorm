@@ -42,22 +42,12 @@ func (r *Dictionary) BeforeDelete(tx *gorm.DB) (err error) {
 	return
 }
 
-// BeforeCreate 添加事件
-func (r *Dictionary) BeforeCreate(tx *gorm.DB) (err error) {
+// BeforeSave 新增修改事件
+func (r *Dictionary) BeforeSave(tx *gorm.DB) (err error) {
 	dictionary := Dictionary{}
-	result := tx.Model(r).Where("name = ?", r.Name).First(&dictionary)
+	result := tx.Model(r).Where("id != ? AND name = ?", r.Id, r.Name).First(&dictionary)
 	if result.RowsAffected > 0 {
-		return errors.New("名称已存在无法添加")
-	}
-	return
-}
-
-// BeforeUpdate 修改事件
-func (r *Dictionary) BeforeUpdate(tx *gorm.DB) (err error) {
-	dictionary := Dictionary{}
-	result := tx.Model(r).Where("name = ? AND id <> ?", r.Name, r.Id).First(&dictionary)
-	if result.RowsAffected > 0 {
-		return errors.New("名称已存在无法添加")
+		return errors.New("名称已存在")
 	}
 	return
 }

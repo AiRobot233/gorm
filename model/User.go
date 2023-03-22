@@ -24,6 +24,7 @@ func (*User) TableName() string {
 	return "user"
 }
 
+// BeforeSave 新增修改事件
 func (u *User) BeforeSave(tx *gorm.DB) (err error) {
 	user := User{}
 	result := tx.Model(u).Where("id != ? AND (`phone` = ? OR `name` = ?)", u.Id, u.Phone, u.Name).First(&user)
@@ -39,6 +40,7 @@ type UserSearch struct {
 	RoleId  int    `form:"role_id"`
 }
 
+// UserSearchFunc 搜索函数
 func UserSearchFunc(params UserSearch) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		if params.Keyword != "" {
