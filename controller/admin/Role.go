@@ -42,9 +42,3 @@ func RoleDel(c *gin.Context) {
 	bol, res := admin.RoleDel(id)
 	utils.Send(c, bol, res)
 }
-
-// RoleSelect 下拉
-func RoleSelect(c *gin.Context) {
-	bol, res := admin.RoleSelect()
-	utils.Send(c, bol, res)
-}

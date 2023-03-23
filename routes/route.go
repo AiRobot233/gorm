@@ -35,18 +35,12 @@ func Routes() *gin.Engine {
 		notRule.POST("/build", func(c *gin.Context) {
 			model.Build(c)
 		})
-		//角色下拉
-		notRule.GET("/role/select", func(c *gin.Context) {
-			admin.RoleSelect(c)
+
+		//组件接口
+		notRule.POST("/sub", func(c *gin.Context) {
+			admin.Assembly(c)
 		})
-		//规则下拉
-		notRule.GET("/rule/select", func(c *gin.Context) {
-			admin.RuleSelect(c)
-		})
-		//字典下拉
-		notRule.GET("/dictionary/select", func(c *gin.Context) {
-			admin.DictionarySelect(c)
-		})
+
 		//获取字典数据
 		notRule.GET("/unit/dictionary", func(c *gin.Context) {
 			admin.UnitDictionary(c)

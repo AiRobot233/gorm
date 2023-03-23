@@ -49,9 +49,3 @@ func UnitDictionary(c *gin.Context) {
 	bol, res := admin.UnitDictionary(name)
 	utils.Send(c, bol, res)
 }
-
-// DictionarySelect 字典下拉
-func DictionarySelect(c *gin.Context) {
-	bol, res := admin.DictionarySelect()
-	utils.Send(c, bol, res)
-}

@@ -153,3 +153,13 @@ func SetPwd(password string, salt string) (bool, string) {
 	}
 	return true, Md5(password + salt)
 }
+
+// GetMapFirstKey 获取map的第一个key
+func GetMapFirstKey(params map[string]any) string {
+	var data string
+	for key := range params {
+		data = key
+		break // 只输出第一个key
+	}
+	return data
+}

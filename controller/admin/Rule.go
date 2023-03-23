@@ -41,10 +41,3 @@ func RuleDel(c *gin.Context) {
 	bol, res := admin.RuleDel(id)
 	utils.Send(c, bol, res)
 }
-
-// RuleSelect 规则下拉
-func RuleSelect(c *gin.Context) {
-	types := c.DefaultQuery("type", "")
-	bol, res := admin.RuleSelect(types)
-	utils.Send(c, bol, res)
-}
