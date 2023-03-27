@@ -10,9 +10,11 @@ import (
 )
 
 func Routes() *gin.Engine {
-	router := gin.Default()
-	router.Static("/storage", "./storage") //文件访问配置地址
-	a := router.Group("/admin")
+	r := gin.Default()
+	r.Static("/storage", "./storage") //文件访问配置地址
+	r.Use(middleware.LogAuth())
+
+	a := r.Group("/admin")
 	{
 		//登录
 		a.POST("/login", func(c *gin.Context) {
@@ -53,6 +55,10 @@ func Routes() *gin.Engine {
 		//修改自己的登录密码
 		notRule.PUT("/change/pwd", func(c *gin.Context) {
 			admin.ChangePwd(c)
+		})
+		//上传文件
+		notRule.POST("/upload", func(c *gin.Context) {
+			controller.Upload(c)
 		})
 
 		//鉴权
@@ -150,10 +156,6 @@ func Routes() *gin.Engine {
 			admin.DictionaryDel(c)
 		})
 
-		//上传文件
-		auth.POST("/upload", func(c *gin.Context) {
-			controller.Upload(c)
-		})
 	}
-	return router
+	return r
 }

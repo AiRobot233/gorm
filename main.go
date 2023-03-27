@@ -3,6 +3,6 @@ package main
 import "gin/routes"
 
 func main() {
-	router := routes.Routes()
-	_ = router.Run(":9501")
+	r := routes.Routes()
+	_ = r.Run(":9501")
 }

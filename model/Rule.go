@@ -38,6 +38,23 @@ func (r *Rule) RuleSetFromData(params validate.Rule) {
 	r.Tag = &params.Tag
 }
 
+// BeforeCreate 创建前事件
+func (r *Rule) BeforeCreate(tx *gorm.DB) (err error) {
+	rule := Rule{}
+	if r.Type == "page" {
+		result := tx.Model(r).Where("router = ?", r.Router).First(&rule)
+		if result.RowsAffected > 0 {
+			return errors.New("页面规则已存在！")
+		}
+	} else {
+		result := tx.Model(r).Where("router = ? AND method = ?", r.Router, r.Method).First(&rule)
+		if result.RowsAffected > 0 {
+			return errors.New("接口规则已存在！")
+		}
+	}
+	return
+}
+
 // BeforeDelete 删除事件
 func (r *Rule) BeforeDelete(tx *gorm.DB) (err error) {
 	rule := Rule{}

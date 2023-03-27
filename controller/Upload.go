@@ -34,7 +34,7 @@ func build() string {
 	//判断文件夹是否存在
 	_, err := os.Stat(filePath)
 	if err != nil {
-		_ = os.Mkdir(filePath, os.ModePerm)
+		_ = os.MkdirAll(filePath, os.ModePerm)
 	}
 	return filePath
 }
