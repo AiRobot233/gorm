@@ -53,12 +53,11 @@ func LogAuth() gin.HandlerFunc {
 		var responseMap map[string]any
 		err := json.Unmarshal(responseBody, &responseMap)
 		if err != nil {
-			// 处理错误
-			c.AbortWithError(500, err)
 			return
 		}
 		if responseMap["error"].(float64) > 0 {
 			logger.WithFields(logrus.Fields{
+				"error":   1,
 				"status":  c.Writer.Status(),
 				"message": responseMap["message"],
 			}).Info("response")
