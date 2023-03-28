@@ -12,7 +12,7 @@ func UserList(page string, pageSize string, params model.UserSearch) (bool, any)
 	var users []model.User //定义表结构
 	var count int64
 	db.Table("user").Scopes(model.UserSearchFunc(params)).Count(&count)
-	result := db.Debug().Table("user").Preload("Role", func(db *gorm.DB) *gorm.DB {
+	result := db.Table("user").Preload("Role", func(db *gorm.DB) *gorm.DB {
 		return db.Select([]string{"id", "name"})
 	}).Select([]string{"id", "name", "phone", "role_id", "status", "created_at"}).Scopes(model.UserSearchFunc(params)).Scopes(model.Paginate(page, pageSize)).Find(&users)
 	return utils.R(result, utils.P(users, count))
