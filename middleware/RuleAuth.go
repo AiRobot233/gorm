@@ -12,19 +12,9 @@ var db = model.GetDb()
 
 func RuleAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		url := strings.Split(c.Request.URL.String(), "?")[0]
+		// 获取前端访问的路由信息
+		url := c.FullPath()
 		method := c.Request.Method
-		//判断PUT DELETE 删除restful的id参数
-		if method == "PUT" || method == "DELETE" {
-			newUrl := ""
-			arr := strings.Split(url, "/")
-			for i := 0; i < len(arr)-1; i++ {
-				if arr[i] != "" {
-					newUrl = newUrl + "/" + arr[i]
-				}
-			}
-			url = newUrl //重新赋值
-		}
 		//查询用户是否有权限访问接口
 		user, err := c.Get("user")
 		if err {

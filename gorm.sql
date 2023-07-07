@@ -90,22 +90,22 @@ INSERT INTO `rule` VALUES (4, 18, '角色配置', 'page', 'role', 0, NULL, NULL)
 INSERT INTO `rule` VALUES (5, 18, '用户管理', 'page', 'user', 0, NULL, NULL);
 INSERT INTO `rule` VALUES (6, 3, '列表', 'api', '/admin/rule', 0, 'GET', NULL);
 INSERT INTO `rule` VALUES (7, 3, '添加', 'api', '/admin/rule', 0, 'POST', 'create');
-INSERT INTO `rule` VALUES (8, 3, '修改', 'api', '/admin/rule', 0, 'PUT', 'update');
-INSERT INTO `rule` VALUES (9, 3, '删除', 'api', '/admin/rule', 0, 'DELETE', 'delete');
+INSERT INTO `rule` VALUES (8, 3, '修改', 'api', '/admin/rule/:id', 0, 'PUT', 'update');
+INSERT INTO `rule` VALUES (9, 3, '删除', 'api', '/admin/rule/:id', 0, 'DELETE', 'delete');
 INSERT INTO `rule` VALUES (10, 4, '列表', 'api', '/admin/role', 0, 'GET', NULL);
 INSERT INTO `rule` VALUES (11, 4, '添加', 'api', '/admin/role', 0, 'POST', 'create');
-INSERT INTO `rule` VALUES (12, 4, '修改', 'api', '/admin/role', 0, 'PUT', 'update');
-INSERT INTO `rule` VALUES (13, 4, '删除', 'api', '/admin/role', 0, 'DELETE', 'delete');
+INSERT INTO `rule` VALUES (12, 4, '修改', 'api', '/admin/role/:id', 0, 'PUT', 'update');
+INSERT INTO `rule` VALUES (13, 4, '删除', 'api', '/admin/role/:id', 0, 'DELETE', 'delete');
 INSERT INTO `rule` VALUES (14, 5, '列表', 'api', '/admin/user', 0, 'GET', NULL);
 INSERT INTO `rule` VALUES (15, 5, '新增', 'api', '/admin/user', 0, 'POST', 'create');
-INSERT INTO `rule` VALUES (16, 5, '修改', 'api', '/admin/user', 0, 'PUT', 'update');
-INSERT INTO `rule` VALUES (17, 5, '删除', 'api', '/admin/user', 0, 'DELETE', 'delete');
+INSERT INTO `rule` VALUES (16, 5, '修改', 'api', '/admin/user/:id', 0, 'PUT', 'update');
+INSERT INTO `rule` VALUES (17, 5, '删除', 'api', '/admin/user/:id', 0, 'DELETE', 'delete');
 INSERT INTO `rule` VALUES (18, 1, '系统设置', 'page', 'system', 0, NULL, NULL);
 INSERT INTO `rule` VALUES (19, 18, '字典管理', 'page', 'dictionary', 0, NULL, NULL);
 INSERT INTO `rule` VALUES (20, 19, '列表', 'api', '/admin/dictionary', 0, 'GET', NULL);
 INSERT INTO `rule` VALUES (21, 19, '新增', 'api', '/admin/dictionary', 0, 'POST', 'create');
-INSERT INTO `rule` VALUES (22, 19, '修改', 'api', '/admin/dictionary', 0, 'PUT', 'update');
-INSERT INTO `rule` VALUES (23, 19, '删除', 'api', '/admin/dictionary', 0, 'DELETE', 'delete');
+INSERT INTO `rule` VALUES (22, 19, '修改', 'api', '/admin/dictionary/:id', 0, 'PUT', 'update');
+INSERT INTO `rule` VALUES (23, 19, '删除', 'api', '/admin/dictionary/:id', 0, 'DELETE', 'delete');
 
 -- ----------------------------
 -- Table structure for user
