@@ -21,12 +21,8 @@ func UserList(page string, pageSize string, params model.UserSearch) (bool, any)
 // UserAdd 新增
 func UserAdd(params validate.User) (bool, any) {
 	//判断值是否存在
-	var status int
 	if params.Password == "" {
 		params.Password = "Aa@112233"
-	}
-	if params.Status == 0 {
-		params.Status = 1
 	}
 	salt := utils.GetSalt(params.Password)
 	user := model.User{
@@ -35,7 +31,7 @@ func UserAdd(params validate.User) (bool, any) {
 		Salt:     salt,
 		Password: utils.Md5(params.Password + salt),
 		RoleId:   params.RoleId,
-		Status:   status,
+		Status:   params.Status,
 	}
 	result := db.Create(&user)
 	return utils.R(result, nil)

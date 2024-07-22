@@ -163,3 +163,13 @@ func GetMapFirstKey(params map[string]any) string {
 	}
 	return data
 }
+
+// GetMapValue 提取map里面的第一个value
+func GetMapValue(myMap map[string]string) string {
+	var firstValue string
+	for _, value := range myMap {
+		firstValue = value // 第一个value
+		break              // 找到后退出循环
+	}
+	return firstValue
+}

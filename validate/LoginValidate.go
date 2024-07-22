@@ -27,7 +27,8 @@ func LoginValidate(context *gin.Context) bool {
 	err := context.ShouldBindWith(&l, binding.JSON)
 	if err != nil {
 		if errs, ok := err.(validator.ValidationErrors); ok {
-			utils.ValidateError(context, errs.Translate(Trans))
+			message := utils.GetMapValue(errs.Translate(Trans))
+			utils.ValidateError(context, message)
 			return false
 		}
 		utils.Error(context, err.Error())

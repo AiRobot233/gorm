@@ -5,10 +5,8 @@ import (
 	"time"
 )
 
-var successMsg = "success" //成功默认值
-var errorCode = 200        //失败code码
-
 func Success(c *gin.Context, data any, msg ...string) {
+	var successMsg = "success" //成功默认值
 	if len(msg) > 0 {
 		successMsg = msg[0]
 	}
@@ -21,6 +19,7 @@ func Success(c *gin.Context, data any, msg ...string) {
 }
 
 func Error(c *gin.Context, msg any, code ...int) {
+	var errorCode = 200 //失败code码
 	if len(code) > 0 {
 		errorCode = code[0]
 	}
@@ -33,7 +32,7 @@ func Error(c *gin.Context, msg any, code ...int) {
 }
 
 // ValidateError 表单验证错误返回
-func ValidateError(c *gin.Context, msg map[string]string) {
+func ValidateError(c *gin.Context, msg any) {
 	c.JSON(412, gin.H{
 		"error":     1,
 		"message":   msg,
