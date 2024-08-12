@@ -45,7 +45,7 @@ func (r *Dictionary) BeforeDelete(tx *gorm.DB) (err error) {
 // BeforeSave 新增修改事件
 func (r *Dictionary) BeforeSave(tx *gorm.DB) (err error) {
 	dictionary := Dictionary{}
-	result := tx.Model(r).Where("id != ? AND name = ?", r.Id, r.Name).First(&dictionary)
+	result := tx.Model(r).Where("id != ? AND name = ? AND pid = ?", r.Id, r.Name, r.Pid).First(&dictionary)
 	if result.RowsAffected > 0 {
 		return errors.New("名称已存在")
 	}
