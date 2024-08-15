@@ -9,17 +9,17 @@ import (
 	"io"
 )
 
-// User 数据体最好公开可以外部直接调用
-type User struct {
-	Name     string `form:"name" json:"name" binding:"required"`
-	Phone    string `form:"phone" json:"phone"`
-	RoleId   int    `form:"role_id" json:"role_id" binding:"required"`
-	Status   int    `form:"status" json:"status"`
-	Password string `form:"password" json:"password"`
-	UnitId   int    `form:"unit_id" json:"unit_id" binding:"required"`
+// Unit 数据体最好公开可以外部直接调用
+type Unit struct {
+	Pid        *int   `form:"pid" json:"pid"  binding:"required"`
+	Name       string `form:"name" json:"name" binding:"required"`
+	IsUnit     int    `form:"is_unit" json:"is_unit" binding:"required"`
+	IsRegister int    `form:"is_register" json:"is_register"`
+	Sort       int    `form:"sort" json:"sort"`
+	Type       string `form:"type" json:"type"`
 }
 
-func UserValidate(context *gin.Context) bool {
+func UnitValidate(context *gin.Context) bool {
 	if err := ValidatorTrans("zh"); err != nil {
 		utils.Error(context, err.Error())
 		return false
@@ -27,7 +27,7 @@ func UserValidate(context *gin.Context) bool {
 	data, _ := io.ReadAll(context.Request.Body)
 	// 再重新写回请求体body中
 	context.Request.Body = io.NopCloser(bytes.NewBuffer(data))
-	var l User
+	var l Unit
 	err := context.ShouldBindWith(&l, binding.JSON)
 	if err != nil {
 		if errs, ok := err.(validator.ValidationErrors); ok {

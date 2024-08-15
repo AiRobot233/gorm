@@ -60,3 +60,21 @@ func DictionaryTree(menus []*model.DictionaryTree, pid int) []*model.DictionaryT
 	}
 	return nodes
 }
+
+// UnitTree 单位，递归输出树状
+func UnitTree(menus []*model.UnitTree, pid int) []*model.UnitTree {
+	//定义子节点目录
+	var nodes []*model.UnitTree
+	if reflect.ValueOf(menus).IsValid() {
+		//循环所有一级菜单
+		for _, v := range menus {
+			//查询所有该菜单下的所有子菜单
+			if v.Pid == pid {
+				//特别注意压入元素不是单个所有加三个 **...** 告诉切片无论多少元素一并压入
+				v.Child = append(v.Child, UnitTree(menus, v.Id)...)
+				nodes = append(nodes, v)
+			}
+		}
+	}
+	return nodes
+}

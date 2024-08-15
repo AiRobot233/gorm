@@ -17,7 +17,9 @@ type User struct {
 	DeletedAt gorm.DeletedAt   `gorm:"column:deleted_at" json:"-"`                    //是否可空:NO
 	Status    int              `gorm:"column:status" json:"status,omitempty"`         //是否可空:NO
 	RoleId    int              `gorm:"column:role_id" json:"role_id,omitempty"`       //是否可空:NO
+	UnitId    int              `gorm:"column:unit_id" json:"unit_id"`                 //是否可空:NO
 	Role      *Role            `json:"role,omitempty"`
+	Unit      *Unit            `json:"unit,omitempty"`
 }
 
 func (*User) TableName() string {

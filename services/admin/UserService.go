@@ -14,7 +14,9 @@ func UserList(page string, pageSize string, params model.UserSearch) (bool, any)
 	db.Table("user").Scopes(model.UserSearchFunc(params)).Count(&count)
 	result := db.Table("user").Preload("Role", func(db *gorm.DB) *gorm.DB {
 		return db.Select([]string{"id", "name"})
-	}).Select([]string{"id", "name", "phone", "role_id", "status", "created_at"}).Scopes(model.UserSearchFunc(params)).Scopes(model.Paginate(page, pageSize)).Find(&users)
+	}).Preload("Unit", func(db *gorm.DB) *gorm.DB {
+		return db.Select([]string{"id", "name"})
+	}).Select([]string{"id", "name", "phone", "unit_id", "role_id", "status", "created_at"}).Scopes(model.UserSearchFunc(params)).Scopes(model.Paginate(page, pageSize)).Find(&users)
 	return utils.R(result, utils.P(users, count))
 }
 
@@ -31,6 +33,7 @@ func UserAdd(params validate.User) (bool, any) {
 		Salt:     salt,
 		Password: utils.Md5(params.Password + salt),
 		RoleId:   params.RoleId,
+		UnitId:   params.UnitId,
 		Status:   params.Status,
 	}
 	result := db.Create(&user)

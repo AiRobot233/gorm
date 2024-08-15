@@ -57,8 +57,14 @@ func UnitDictionary(name string) (bool, any) {
 }
 
 // DictionarySelect 字典下拉
-func DictionarySelect() (bool, any) {
+func DictionarySelect(value string) (bool, any) {
 	var dictionary []*model.DictionaryTree
 	result := db.Find(&dictionary)
-	return utils.R(result, DictionaryTree(dictionary, 0))
+	pid := 0
+	if value != "" {
+		var a model.Dictionary
+		_ = db.Where("value", value).Find(&a)
+		pid = a.Id
+	}
+	return utils.R(result, DictionaryTree(dictionary, pid))
 }

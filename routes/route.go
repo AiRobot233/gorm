@@ -162,6 +162,28 @@ func Routes() *gin.Engine {
 		auth.DELETE("/dictionary/:id", func(c *gin.Context) {
 			admin.DictionaryDel(c)
 		})
+		//单位列表
+		auth.GET("/unit", func(c *gin.Context) {
+			admin.UnitList(c)
+		})
+		//单位添加
+		auth.POST("/unit", func(c *gin.Context) {
+			bol := validate.UnitValidate(c)
+			if bol {
+				admin.UnitAdd(c)
+			}
+		})
+		//单位修改
+		auth.PUT("/unit/:id", func(c *gin.Context) {
+			bol := validate.UnitValidate(c)
+			if bol {
+				admin.UnitEdit(c)
+			}
+		})
+		//单位删除
+		auth.DELETE("/unit/:id", func(c *gin.Context) {
+			admin.UnitDel(c)
+		})
 
 	}
 	return r

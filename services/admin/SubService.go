@@ -16,7 +16,9 @@ func Assembly(params map[string]any) (bool, any) {
 	case "rule":
 		return RuleSelect(params[key].(string))
 	case "dictionary":
-		return DictionarySelect()
+		return DictionarySelect(params[key].(string))
+	case "unit":
+		return UnitSelect(false)
 	default:
 		return false, "组件未注册!"
 	}
