@@ -39,6 +39,10 @@ func Routes() *gin.Engine {
 			controller.A(c)
 		})
 
+		a.GET("/setUser", func(c *gin.Context) {
+			controller.SetUnitUser(c)
+		})
+
 		notRule := a.Use(middleware.LoginAuth())
 		//创建model文件
 		notRule.POST("/build", func(c *gin.Context) {

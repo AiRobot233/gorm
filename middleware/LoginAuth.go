@@ -14,7 +14,7 @@ func LoginAuth() gin.HandlerFunc {
 			return
 		} else {
 			err, data := utils.CheckJwt(token)
-			if err {
+			if err != nil {
 				utils.Error(context, data, 401)
 				context.Abort()
 				return
