@@ -15,6 +15,7 @@ type Unit struct {
 	Type       string           `gorm:"column:type" json:"type,omitempty"` //是否可空:NO 类型
 	IsUnit     int              `gorm:"is_unit" json:"is_unit" `
 	IsRegister int              `gorm:"is_register" json:"is_register" `
+	CheckOrg   int              `gorm:"check_org" json:"check_org"`
 	CreatedAt  *utils.LocalTime `gorm:"column:created_at" json:"created_at,omitempty"` //是否可空:NO
 	UpdatedAt  *utils.LocalTime `gorm:"column:updated_at" json:"updated_at,omitempty"` //是否可空:NO
 	DeletedAt  gorm.DeletedAt   `gorm:"column:deleted_at" json:"-"`                    //是否可空:NO
@@ -38,6 +39,7 @@ func (r *Unit) UnitSetFromData(params validate.Unit) {
 	r.IsRegister = params.IsRegister
 	r.Sort = params.Sort
 	r.Type = params.Type
+	r.CheckOrg = params.CheckOrg
 }
 
 func (r *Unit) BeforeCreate(tx *gorm.DB) (err error) {

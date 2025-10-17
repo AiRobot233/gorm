@@ -16,7 +16,7 @@ type User struct {
 	RoleId   int    `form:"role_id" json:"role_id" binding:"required"`
 	Status   int    `form:"status" json:"status"`
 	Password string `form:"password" json:"password"`
-	UnitId   int    `form:"unit_id" json:"unit_id" binding:"required"`
+	UnitId   int    `form:"unit_id" json:"unit_id"` // binding:"required"
 }
 
 func UserValidate(context *gin.Context) bool {

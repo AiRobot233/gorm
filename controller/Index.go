@@ -5,6 +5,8 @@ import (
 	"gin/model"
 	"gin/utils"
 	"github.com/gin-gonic/gin"
+	"regexp"
+	"strings"
 )
 
 func Jwt(context *gin.Context) {
@@ -20,10 +22,26 @@ func A(context *gin.Context) {
 	utils.Success(context, data)
 }
 
+type Tes struct {
+	Sql string `form:"sql" json:"sql"`
+}
+
 func Test(c *gin.Context) {
-	params := utils.GetSlice()
-	if err := c.ShouldBind(&params); err == nil {
-		utils.Success(c, params)
+	params := Tes{}
+	if err := c.ShouldBindJSON(&params); err == nil {
+		// 定义正则表达式，匹配 ```sql 和 ``` 之间的 SQL 语句
+		re := regexp.MustCompile("(?i)```sql\\s*(.*?)\\s*```")
+		// 提取匹配的 SQL 语句
+		matches := re.FindStringSubmatch(params.Sql)
+		if len(matches) >= 2 {
+			cleanSQL := strings.TrimSpace(matches[1])
+			var results []map[string]any // 这里改为切片，支持多行数据
+			fmt.Println("sql:" + cleanSQL)
+			model.GetDb().Raw(cleanSQL).Scan(&results)
+			utils.Success(c, results)
+		} else {
+			utils.Error(c, "未找到 SQL 语句")
+		}
 	} else {
 		utils.Error(c, err.Error())
 	}

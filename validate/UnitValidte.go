@@ -17,6 +17,7 @@ type Unit struct {
 	IsRegister int    `form:"is_register" json:"is_register"`
 	Sort       int    `form:"sort" json:"sort"`
 	Type       string `form:"type" json:"type"`
+	CheckOrg   int    `form:"check_org" json:"check_org"`
 }
 
 func UnitValidate(context *gin.Context) bool {

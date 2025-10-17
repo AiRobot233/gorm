@@ -42,10 +42,14 @@ func ValidateError(c *gin.Context, msg any) {
 }
 
 // Send 封装输出数据
-func Send(c *gin.Context, bol bool, data any) {
+func Send(c *gin.Context, bol bool, data any, code ...int) {
+	var errorCode = 200
+	if len(code) > 0 {
+		errorCode = code[0]
+	}
 	if bol {
 		Success(c, data)
 	} else {
-		Error(c, data)
+		Error(c, data, errorCode)
 	}
 }

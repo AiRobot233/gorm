@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"errors"
 	"gin/model"
 	"gin/utils"
 	"gorm.io/gorm"
@@ -57,4 +58,29 @@ func ChangePwd(params map[string]any, user map[string]any) (bool, any) {
 	} else {
 		return false, "旧密码错误！"
 	}
+}
+
+func FirstPwd(userId float64, password string) (bool, any) {
+	var user model.User
+
+	// 1️⃣ 查询用户
+	if err := db.First(&user, userId).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return false, "用户不存在"
+		}
+		return false, err.Error()
+	}
+
+	// 3️⃣ 计算新密码：md5(password + salt)
+	hashedPwd := utils.Md5(password + user.Salt)
+
+	// 4️⃣ 更新密码和状态
+	user.Password = hashedPwd
+	user.FirstLogin = 2
+
+	if err := db.Save(&user).Error; err != nil {
+		return false, err.Error()
+	}
+
+	return true, nil
 }

@@ -19,6 +19,7 @@ func Routes() *gin.Engine {
 	r.Use(gin.Recovery())
 
 	r.Static("/storage", "./storage") //文件访问配置地址
+
 	r.Use(middleware.LogAuth())
 
 	a := r.Group("/admin")
@@ -29,6 +30,11 @@ func Routes() *gin.Engine {
 			if bol {
 				admin.Login(c)
 			}
+		})
+
+		//获取站点配置
+		a.GET("/setting/web", func(c *gin.Context) {
+			admin.SettingWeb(c)
 		})
 
 		a.POST("/test", func(c *gin.Context) {
@@ -66,6 +72,10 @@ func Routes() *gin.Engine {
 		//修改自己的登录密码
 		notRule.PUT("/change/pwd", func(c *gin.Context) {
 			admin.ChangePwd(c)
+		})
+		//第一次修改密码
+		notRule.PUT("/first/pwd", func(c *gin.Context) {
+			admin.FirstPwd(c)
 		})
 		//上传文件
 		notRule.POST("/upload", func(c *gin.Context) {
@@ -187,6 +197,14 @@ func Routes() *gin.Engine {
 		//单位删除
 		auth.DELETE("/unit/:id", func(c *gin.Context) {
 			admin.UnitDel(c)
+		})
+		//站点配置
+		auth.GET("/setting", func(c *gin.Context) {
+			admin.SettingList(c)
+		})
+
+		auth.POST("/setting/save", func(c *gin.Context) {
+			admin.SettingSave(c)
 		})
 
 	}
